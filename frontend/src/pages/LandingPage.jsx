@@ -19,8 +19,18 @@ const YouTubeEmbed = ({ videoId, title, isAutoplay = false }) => {
     );
   }
 
+  // Helper to extract ID from URL if necessary to ensure params like playlist (for looping) work
+  const getCleanId = (id) => {
+    if (!id) return "";
+    if (id.includes("v=")) return id.split("v=")[1].split("&")[0];
+    if (id.includes("youtu.be/")) return id.split("youtu.be/")[1].split("?")[0];
+    return id;
+  };
+
+  const cleanId = getCleanId(videoId);
+
   const params = isAutoplay
-    ? `?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0`
+    ? `?autoplay=1&mute=1&loop=1&playlist=${cleanId}&controls=0&modestbranding=1&rel=0`
     : `?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0`;
 
   return (
@@ -28,7 +38,7 @@ const YouTubeEmbed = ({ videoId, title, isAutoplay = false }) => {
       <iframe
         width="100%"
         height="100%"
-        src={`https://www.youtube.com/embed/${videoId}${params}`}
+        src={`https://www.youtube.com/embed/${cleanId}${params}`}
         title={title}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -69,11 +79,11 @@ const LandingPage = () => {
   };
 
   const PORTFOLIO_ASSETS = {
-    mainShowcaseId: landing?.mainShowcaseId || "hgrUlefvHRY",
-    selectedProjectId: landing?.selectedProjectId || "xozCevWDhR4",
+    mainShowcaseId: landing?.mainShowcaseId || "ym-Q_7BgoV0",
+    selectedProjectId: landing?.selectedProjectId || "EWTrBBjJk64",
     architectureId: landing?.architectureId || "helX4z4-2sc",
-    innovationId: landing?.innovationId || "QOOLshsQvpY",
-    professionalId: landing?.professionalId || "3JpSHcQ6Buw"
+    innovationId: landing?.innovationId || "KYPWqoTO0vw",
+    professionalId: landing?.professionalId || "S-ZQC-PIKy4"
   };
 
   return (
@@ -182,7 +192,8 @@ const LandingPage = () => {
             <h2 style={mainTitle}>Academic <span style={textGradient}>Events</span></h2>
           </div>
           <div style={{...videoWrapper, height: "500px"}}>
-            <YouTubeEmbed videoId={PORTFOLIO_ASSETS.selectedProjectId} title="Selected Project" />
+            {/* Added isAutoplay={true} here */}
+            <YouTubeEmbed videoId={PORTFOLIO_ASSETS.selectedProjectId} title="Selected Project" isAutoplay={true} />
           </div>
         </div>
       </section>
@@ -194,8 +205,9 @@ const LandingPage = () => {
             <h2 style={mainTitle}>Technical <span style={textGradient}>Proof</span></h2>
           </div>
           <div style={videoGridContainer}>
-            <div style={galleryItemVideo}><YouTubeEmbed videoId={PORTFOLIO_ASSETS.architectureId} title="Architecture" /></div>
-            <div style={galleryItemVideo}><YouTubeEmbed videoId={PORTFOLIO_ASSETS.innovationId} title="Innovation" /></div>
+            {/* Added isAutoplay={true} here */}
+            <div style={galleryItemVideo}><YouTubeEmbed videoId={PORTFOLIO_ASSETS.architectureId} title="Architecture" isAutoplay={true} /></div>
+            <div style={galleryItemVideo}><YouTubeEmbed videoId={PORTFOLIO_ASSETS.innovationId} title="Innovation" isAutoplay={true} /></div>
           </div>
           
           <div style={{...heroGrid, marginTop: "80px"}}>

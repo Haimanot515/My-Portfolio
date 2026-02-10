@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  // This line is the fix: it checks Render's environment variable first
+  // This uses the Render URL in production and localhost during development
   baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
 });
 
