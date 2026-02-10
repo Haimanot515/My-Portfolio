@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Updated to use your Brevo SDK configuration
-const { sendEmail } = require("../config/nodemailer"); 
+const { sendEmail } = require("../config/brevo"); 
 
 /* ===========================
     REGISTER (SEND CODE)
