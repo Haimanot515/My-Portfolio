@@ -65,7 +65,7 @@ const startServer = async () => {
     // --- 🆕 Independent Landing API Endpoint ---
     app.use("/api/landing", landingRoutes); 
 
-    // Health check (Changed to a specific path for clarity)
+    // Health check
     app.get("/health", (req, res) => {
       res.send("Portfolio Backend is running!");
     });
@@ -74,15 +74,18 @@ const startServer = async () => {
     // PRODUCTION FRONTEND SERVING
     // ---------------------------------------------------------
     if (process.env.NODE_ENV === "production") {
-      app.use(express.static(path.join(__dirname, "client/build")));
+      const buildPath = path.join(__dirname, "client/build");
+      app.use(express.static(buildPath));
       
-      // FIXED: Using '/*' instead of '*' to avoid Path-to-RegExp error
-      app.get("/*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+      // ✅ THE CRITICAL FIX:
+      // Change '/*' to '/:path*'
+      // This gives the parameter a name ('path'), which is required by Express 5
+      app.get("/:path*", (req, res) => {
+        res.sendFile(path.resolve(buildPath, "index.html"));
       });
     }
 
-    // 404 handler (Matches anything not caught by API or Static files)
+    // 404 handler (Fallback for missing API routes)
     app.use((req, res) => {
       res.status(404).json({ message: "Route not found" });
     });
