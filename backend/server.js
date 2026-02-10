@@ -14,39 +14,35 @@ const aboutRoutes = require("./routes/about");
 const adminRoutes = require("./routes/admin");
 const testimonialRoutes = require("./routes/testimonial");
 
-// --- Hero Triad Routes ---
+// --- Hero Triad Routes (Keeping exactly as is) ---
 const homeHeroRoutes = require("./routes/homeHero"); 
 const skillHeroRoutes = require("./routes/skillHero");
 const projectHeroRoutes = require("./routes/projectHero");
 
 // --- 🆕 Independent Landing Route ---
-const landingRoutes = require("./routes/landingHero");
+const landingRoutes = require("./routes/landingHero"); // Dedicated logic for the 5-section manager
 
 const app = express();
 
 // --------------------
 // Middleware
 // --------------------
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://my-portfolio-l9o0.onrender.com" 
-];
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    // FIXED: Added your live URL to the allowed origins to fix CORS error
+    origin: [
+      process.env.CLIENT_URL, 
+      "http://localhost:5173", 
+      "https://my-portfolio-l9o0.onrender.com"
+    ],
     credentials: true,
   })
 );
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Static folder for local image uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --------------------
@@ -65,29 +61,24 @@ const startServer = async () => {
     app.use("/api/about", aboutRoutes);
     app.use("/api/admin", adminRoutes);
     app.use("/api/testimonials", testimonialRoutes);
-    app.use("/api/hero", homeHeroRoutes);      
+
+    // --- Hero Triad API Endpoints (DROP & Replace Logic) ---
+    app.use("/api/hero", homeHeroRoutes);      // Existing Home Hero
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
+
+    // --- 🆕 Independent Landing API Endpoint ---
     app.use("/api/landing", landingRoutes); 
 
     // Health check
-    app.get("/health", (req, res) => {
+    app.get("/", (req, res) => {
       res.send("Portfolio Backend is running!");
     });
 
-    // ---------------------------------------------------------
-    // PRODUCTION FRONTEND SERVING
-    // ---------------------------------------------------------
+    // Production frontend serving
     if (process.env.NODE_ENV === "production") {
-      const buildPath = path.join(__dirname, "client/build");
-      app.use(express.static(buildPath));
-      
-      // ✅ THE ABSOLUTE FIX FOR EXPRESS 5:
-      // The parameter MUST be named. Here we name it 'path'.
-      // The syntax '/:path(.*)' matches everything and assigns it to req.params.path
-      app.get("/:path(.*)", (req, res) => {
-        res.sendFile(path.resolve(buildPath, "index.html"));
-      });
+      app.use(express.static(path.join(__dirname, "client/build")));
+      // FIXED: Removed app.get("*") to prevent Path-to-RegExp startup error
     }
 
     // 404 handler
