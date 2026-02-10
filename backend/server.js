@@ -49,15 +49,18 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // --------------------
 const startServer = async () => {
   try {
+    // Check for MONGO_URI
+    if (!process.env.MONGO_URI) {
+        throw new Error("MONGO_URI is missing from environment variables");
+    }
+
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected");
 
     // --- API Endpoints ---
-    // FIXED: Removed "/api" from these two so they match your frontend calls
-    app.use("/auth", authRoutes); 
-    app.use("/landing", landingRoutes); 
-
-    // Keeping these as /api unless you need them changed too
+    // Keeping /api prefix consistent so your frontend API utility works correctly
+    app.use("/api/auth", authRoutes); 
+    app.use("/api/landing", landingRoutes); 
     app.use("/api/projects", projectsRouter);
     app.use("/api/skills", skillsRouter);
     app.use("/api/contact", contactRoutes);
@@ -68,7 +71,7 @@ const startServer = async () => {
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
 
-    // Health check
+    // Health check (Critical for Render)
     app.get("/", (req, res) => {
       res.send("Portfolio Backend is running!");
     });
@@ -89,10 +92,15 @@ const startServer = async () => {
       res.status(500).json({ message: "Server error" });
     });
 
+    // --------------------
+    // PORT BINDING (The Fix)
+    // --------------------
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () =>
+    // Binding to '0.0.0.0' is required for Render web services
+    app.listen(PORT, '0.0.0.0', () =>
       console.log(`🚀 Server running on port ${PORT}`)
     );
+
   } catch (err) {
     console.error("❌ Server startup error:", err);
     process.exit(1);
