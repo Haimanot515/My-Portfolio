@@ -1,4 +1,4 @@
-const ProjectHero = require("../models/ProjectHero");
+const ProjectHero = require("../models/projectHero");
 const cloudinary = require("../config/cloudinary");
 
 // @desc    Get Project Hero data (Latest entry)
