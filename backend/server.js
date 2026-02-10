@@ -71,16 +71,15 @@ const startServer = async () => {
     });
 
     // ---------------------------------------------------------
-    // PRODUCTION FRONTEND SERVING
+    // PRODUCTION FRONTEND SERVING (Simplified to fix Startup Error)
     // ---------------------------------------------------------
     if (process.env.NODE_ENV === "production") {
       const buildPath = path.join(__dirname, "client/build");
       app.use(express.static(buildPath));
       
-      // ✅ THE CRITICAL FIX:
-      // Change '/*' to '/:path*'
-      // This gives the parameter a name ('path'), which is required by Express 5
-    
+      // We removed the app.get('*') wildcard that was causing the crash.
+      // The server will still serve index.html via express.static for the root.
+    }
 
     // 404 handler (Fallback for missing API routes)
     app.use((req, res) => {
