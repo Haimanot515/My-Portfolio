@@ -1,4 +1,4 @@
-const SkillHero = require("../models/SkillHero");
+const SkillHero = require("../models/skillHero");
 const cloudinary = require("../config/cloudinary");
 
 // @desc    Get Skill Hero data (Latest entry)
