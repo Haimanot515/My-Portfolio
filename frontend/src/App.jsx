@@ -27,6 +27,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { pathname } = useLocation();
+  // Logic to hide the footer on admin routes
   const hideFooter = pathname.startsWith("/admin");
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function App() {
           path="/admin" 
           element={loggedIn && isAdmin ? <AdminNavbar /> : <Navigate to="/" />}
         >
-          {/* 1. ADDED THIS NEW ROUTE TO MATCH YOUR NAVBAR LINK */}
+          {/* Landing Management */}
           <Route path="landing/manage" element={<AdminLanding />} />
 
           <Route path="users/view" element={<AdminUser mode={pathname} />} />
@@ -101,7 +102,8 @@ function App() {
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
 
-      {!hid yes eFooter && <Footer />}
+      {/* FIXED: Removed the typo 'hid yes e' */}
+      {!hideFooter && <Footer />}
     </>
   );
 }
