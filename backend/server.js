@@ -80,10 +80,7 @@ const startServer = async () => {
       // ✅ THE CRITICAL FIX:
       // Change '/*' to '/:path*'
       // This gives the parameter a name ('path'), which is required by Express 5
-      app.get("/:path*", (req, res) => {
-        res.sendFile(path.resolve(buildPath, "index.html"));
-      });
-    }
+    
 
     // 404 handler (Fallback for missing API routes)
     app.use((req, res) => {
