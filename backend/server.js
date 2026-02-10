@@ -14,13 +14,13 @@ const aboutRoutes = require("./routes/about");
 const adminRoutes = require("./routes/admin");
 const testimonialRoutes = require("./routes/testimonial");
 
-// --- Hero Triad Routes (Keeping exactly as is) ---
+// --- Hero Triad Routes ---
 const homeHeroRoutes = require("./routes/homeHero"); 
 const skillHeroRoutes = require("./routes/skillHero");
 const projectHeroRoutes = require("./routes/projectHero");
 
 // --- 🆕 Independent Landing Route ---
-const landingRoutes = require("./routes/landingHero"); // Dedicated logic for the 5-section manager
+const landingRoutes = require("./routes/landingHero");
 
 const app = express();
 
@@ -29,7 +29,6 @@ const app = express();
 // --------------------
 app.use(
   cors({
-    // FIXED: Added your live URL to the allowed origins to fix CORS error
     origin: [
       process.env.CLIENT_URL, 
       "http://localhost:5173", 
@@ -53,22 +52,21 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected");
 
-    // --- Standard API Endpoints ---
-    app.use("/api/auth", authRoutes);
+    // --- API Endpoints ---
+    // FIXED: Removed "/api" from these two so they match your frontend calls
+    app.use("/auth", authRoutes); 
+    app.use("/landing", landingRoutes); 
+
+    // Keeping these as /api unless you need them changed too
     app.use("/api/projects", projectsRouter);
     app.use("/api/skills", skillsRouter);
     app.use("/api/contact", contactRoutes);
     app.use("/api/about", aboutRoutes);
     app.use("/api/admin", adminRoutes);
     app.use("/api/testimonials", testimonialRoutes);
-
-    // --- Hero Triad API Endpoints (DROP & Replace Logic) ---
-    app.use("/api/hero", homeHeroRoutes);      // Existing Home Hero
+    app.use("/api/hero", homeHeroRoutes);      
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
-
-    // --- 🆕 Independent Landing API Endpoint ---
-    app.use("/api/landing", landingRoutes); 
 
     // Health check
     app.get("/", (req, res) => {
@@ -78,7 +76,6 @@ const startServer = async () => {
     // Production frontend serving
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(path.join(__dirname, "client/build")));
-      // FIXED: Removed app.get("*") to prevent Path-to-RegExp startup error
     }
 
     // 404 handler
