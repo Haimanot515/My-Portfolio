@@ -1,4 +1,4 @@
-const Testimonial = require("../models/Testimonial");
+const Testimonial = require("../models/testimonial");
 const cloudinary = require("../config/cloudinary");
 
 // Helper function to handle Cloudinary stream uploads for Avatars
