@@ -2,7 +2,9 @@ const User = require("../models/User");
 const VerificationCode = require("../models/VerificationCode");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const transporter = require("../config/nodemailer");
+
+// Updated to use your Brevo SDK configuration
+const { sendEmail } = require("../config/brevo"); 
 
 /* ===========================
     REGISTER (SEND CODE)
@@ -11,6 +13,7 @@ exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    // 1. Validation
     if (!name || !email || !password) {
       return res.status(400).json({ msg: "All fields are required." });
     }
@@ -19,17 +22,19 @@ exports.register = async (req, res) => {
       return res.status(400).json({ msg: "Password must be at least 6 characters." });
     }
 
+    // 2. Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ msg: "User already exists." });
     }
 
-    // Remove old unused codes
+    // 3. Clear any previous unused codes for this email
     await VerificationCode.deleteMany({ email, used: false });
 
-    // Generate 6-digit code
+    // 4. Generate 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // 5. Store code in DB with 10-minute expiry
     await VerificationCode.create({
       email,
       DBcode: code,
@@ -37,13 +42,8 @@ exports.register = async (req, res) => {
       expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 min
     });
 
-    // Send professional HTML email
-    await transporter.sendMail({
-      from: `"Build Digital Excellence Team" <${process.env.SMTP_FROM}>`, 
-      to: email,
-      subject: `Welcome to my Portfolio - Below is your verification code`,
-      text: `Hello ${name}, your Verification Code is: ${code}.`, 
-      html: `
+    // 6. Prepare Professional HTML Email
+    const htmlContent = `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
           
           <div style="text-align: center; margin-bottom: 20px;">
@@ -72,15 +72,20 @@ exports.register = async (req, res) => {
             <p>⚠️ This is an automated message, please do not reply to this email address.</p>
           </div>
         </div>
-      `,
-      replyTo: "no-reply@noreply.com",
-    });
+      `;
+
+    // 7. Send via Brevo API
+    await sendEmail(
+        email, 
+        "Welcome to my Portfolio - Your Verification Code", 
+        htmlContent
+    );
 
     res.json({ msg: "Verification code sent to your email." });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error during registration." });
+    console.error("❌ Registration/Brevo Error:", err);
+    res.status(500).json({ msg: "Server error during registration. Check Brevo API Key." });
   }
 };
 
@@ -95,6 +100,7 @@ exports.verify = async (req, res) => {
       return res.status(400).json({ msg: "All fields are required." });
     }
 
+    // 1. Find the matching code record
     const record = await VerificationCode.findOne({
       email,
       DBcode: code,
@@ -105,19 +111,22 @@ exports.verify = async (req, res) => {
       return res.status(400).json({ msg: "Invalid or already used code." });
     }
 
+    // 2. Check for expiry
     if (record.expiresAt < new Date()) {
       return res.status(400).json({ msg: "Verification code expired." });
     }
 
+    // 3. Prevent duplicate creation if they refreshed the page
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ msg: "User already registered." });
     }
 
-    // Mark code as used
+    // 4. Mark code as used
     record.used = true;
     await record.save();
 
+    // 5. Hash password and Create User
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -127,6 +136,7 @@ exports.verify = async (req, res) => {
       isVerified: true,
     });
 
+    // 6. Generate JWT for instant login after verification
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
@@ -140,10 +150,11 @@ exports.verify = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        isAdmin: user.isAdmin
       },
     });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Verification Error:", err);
     res.status(500).json({ msg: "Server error during verification." });
   }
 };
@@ -159,20 +170,24 @@ exports.login = async (req, res) => {
       return res.status(400).json({ msg: "Email and password required." });
     }
 
+    // 1. Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ msg: "User not found." });
     }
 
+    // 2. Check verification status
     if (!user.isVerified) {
       return res.status(403).json({ msg: "Please verify your email first." });
     }
 
+    // 3. Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid password." });
     }
 
+    // 4. Generate Token
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
@@ -185,10 +200,11 @@ exports.login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        isAdmin: user.isAdmin
       },
     });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Login Error:", err);
     res.status(500).json({ msg: "Server error during login." });
   }
 };
