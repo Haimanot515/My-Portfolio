@@ -27,8 +27,6 @@ const app = express();
 // --------------------
 // Middleware
 // --------------------
-
-// FIXED CORS: Allow both localhost and your Render URL
 const allowedOrigins = [
   "http://localhost:5173",
   "https://my-portfolio-l9o0.onrender.com" 
@@ -67,8 +65,6 @@ const startServer = async () => {
     app.use("/api/about", aboutRoutes);
     app.use("/api/admin", adminRoutes);
     app.use("/api/testimonials", testimonialRoutes);
-
-    // --- Hero Triad API Endpoints ---
     app.use("/api/hero", homeHeroRoutes);      
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
@@ -86,9 +82,10 @@ const startServer = async () => {
       const buildPath = path.join(__dirname, "client/build");
       app.use(express.static(buildPath));
       
-      // ✅ THE CRITICAL FIX: Use the RegExp syntax "(.*)" 
-      // This bypasses the "Missing parameter name" error in Express 5
-      app.get("(.*)", (req, res) => {
+      // ✅ THE ABSOLUTE FIX FOR EXPRESS 5:
+      // The parameter MUST be named. Here we name it 'path'.
+      // The syntax '/:path(.*)' matches everything and assigns it to req.params.path
+      app.get("/:path(.*)", (req, res) => {
         res.sendFile(path.resolve(buildPath, "index.html"));
       });
     }
