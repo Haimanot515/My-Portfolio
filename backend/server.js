@@ -14,13 +14,13 @@ const aboutRoutes = require("./routes/about");
 const adminRoutes = require("./routes/admin");
 const testimonialRoutes = require("./routes/testimonial");
 
-// --- Hero Triad Routes (Keeping exactly as is) ---
+// --- Hero Triad Routes ---
 const homeHeroRoutes = require("./routes/homeHero"); 
 const skillHeroRoutes = require("./routes/skillHero");
 const projectHeroRoutes = require("./routes/projectHero");
 
 // --- 🆕 Independent Landing Route ---
-const landingRoutes = require("./routes/landingHero"); // Dedicated logic for the 5-section manager
+const landingRoutes = require("./routes/landingHero");
 
 const app = express();
 
@@ -57,28 +57,32 @@ const startServer = async () => {
     app.use("/api/admin", adminRoutes);
     app.use("/api/testimonials", testimonialRoutes);
 
-    // --- Hero Triad API Endpoints (DROP & Replace Logic) ---
-    app.use("/api/hero", homeHeroRoutes);      // Existing Home Hero
+    // --- Hero Triad API Endpoints ---
+    app.use("/api/hero", homeHeroRoutes);      
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
 
     // --- 🆕 Independent Landing API Endpoint ---
     app.use("/api/landing", landingRoutes); 
 
-    // Health check
-    app.get("/", (req, res) => {
+    // Health check (Changed to a specific path for clarity)
+    app.get("/health", (req, res) => {
       res.send("Portfolio Backend is running!");
     });
 
-    // Production frontend serving
+    // ---------------------------------------------------------
+    // PRODUCTION FRONTEND SERVING
+    // ---------------------------------------------------------
     if (process.env.NODE_ENV === "production") {
       app.use(express.static(path.join(__dirname, "client/build")));
-      app.get("*", (req, res) =>
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-      );
+      
+      // FIXED: Using '/*' instead of '*' to avoid Path-to-RegExp error
+      app.get("/*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+      });
     }
 
-    // 404 handler
+    // 404 handler (Matches anything not caught by API or Static files)
     app.use((req, res) => {
       res.status(404).json({ message: "Route not found" });
     });
