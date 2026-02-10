@@ -27,9 +27,24 @@ const app = express();
 // --------------------
 // Middleware
 // --------------------
+
+// FIXED: CORS CONFIGURATION
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://my-portfolio-l9o0.onrender.com" // Your exact frontend URL from the error log
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -71,17 +86,19 @@ const startServer = async () => {
     });
 
     // ---------------------------------------------------------
-    // PRODUCTION FRONTEND SERVING (Simplified to fix Startup Error)
+    // PRODUCTION FRONTEND SERVING
     // ---------------------------------------------------------
     if (process.env.NODE_ENV === "production") {
       const buildPath = path.join(__dirname, "client/build");
       app.use(express.static(buildPath));
       
-      // We removed the app.get('*') wildcard that was causing the crash.
-      // The server will still serve index.html via express.static for the root.
+      // Using a named parameter catch-all that is safe for Express 5
+      app.get("/:path*", (req, res) => {
+        res.sendFile(path.resolve(buildPath, "index.html"));
+      });
     }
 
-    // 404 handler (Fallback for missing API routes)
+    // 404 handler
     app.use((req, res) => {
       res.status(404).json({ message: "Route not found" });
     });
