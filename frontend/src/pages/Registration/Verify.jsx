@@ -135,27 +135,7 @@ const Verify = ({ setLoggedIn, setIsAdmin, closeModal }) => {
         {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       </form>
 
-      <button 
-        type="button"
-        onClick={closeModal} 
-        style={{ 
-          marginTop: "25px", 
-          border: "none", 
-          background: "#f0f0f0", 
-          borderRadius: "50%", 
-          width: "45px", 
-          height: "45px", 
-          display: "flex", 
-          justifyContent: "center", 
-          alignItems: "center", 
-          cursor: "pointer",
-          transition: "0.3s"
-        }}
-        onMouseOver={(e) => e.currentTarget.style.background = "#e5e5e5"}
-        onMouseOut={(e) => e.currentTarget.style.background = "#f0f0f0"}
-      >
-        <FaTimes style={{ fontSize: "20px", color: "#333" }} />
-      </button>
+     
     </div>
   );
 };
