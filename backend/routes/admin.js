@@ -1,5 +1,6 @@
 const express = require("express");
-const transporter=require("../config/nodemailer")
+// Changed: importing the sendEmail function from your Brevo-based config
+const { sendEmail } = require("../config/nodemailer");
 const router = express.Router(); 
 const auth = require("../middleware/authMiddleware");
 const adminAuth = require("../middleware/adminMiddleware");
@@ -110,27 +111,26 @@ router.get("/messages/:threadId", async (req, res) => {
 
   const filter = { threadId };
   if (cursor) {
-    filter.createdAt = { $lt: new Date(cursor) }; // use createdAt
+    filter.createdAt = { $lt: new Date(cursor) }; 
   }
 
   try {
     const messages = await Message.find(filter)
-      .sort({ createdAt: 1 }) // oldest first
+      .sort({ createdAt: 1 }) 
       .limit(limit);
 
     const nextCursor = messages.length ? messages[messages.length - 1].createdAt : null;
-    // now let us update the thread
-  const thread=await Thread.findOneAndUpdate( { _id: threadId }, {unreadForAdmin:0} );
+    
+    const thread = await Thread.findOneAndUpdate( { _id: threadId }, {unreadForAdmin:0} );
 
-
-    res.json({ success: true, messages, nextCursor,thread });
+    res.json({ success: true, messages, nextCursor, thread });
   } catch (err) {
     console.error("Get messages error:", err);
     res.status(500).json({ success: false, msg: "Failed to fetch messages" });
   }
 });
 
-
+// ==================== REPLY (Adjusted for Brevo) ====================
 router.post("/reply", auth, adminAuth, async (req, res) => {
   const { threadId, message, clientId } = req.body;
 
@@ -139,7 +139,6 @@ router.post("/reply", auth, adminAuth, async (req, res) => {
   }
 
   try {
-    // Save admin message
     const adminMsgDoc = await Message.create({
       threadId,
       message,
@@ -148,7 +147,6 @@ router.post("/reply", auth, adminAuth, async (req, res) => {
     });
     const adminMsg = adminMsgDoc.toObject();
 
-    // Update thread metadata
     const thread = await Thread.findByIdAndUpdate(
       threadId,
       {
@@ -161,21 +159,24 @@ router.post("/reply", auth, adminAuth, async (req, res) => {
     if (!thread) {
       return res.status(404).json({ success: false, msg: "Thread not found" });
     }
-       
 
-    // ✅ Send email before responding
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM, // make sure this is defined in your .env
-      to: thread.userEmail,
-      subject: "Reply from Admin",
-      text: `${message}\n\n---\n⚠️ Please do not reply to this email. This inbox is not monitored.`,
-      replyTo: "no-reply@noreplay.com",
+    // ✅ Using the Brevo sendEmail function instead of transporter.sendMail
+    const emailHtml = `
+      <div style="font-family: sans-serif; color: #333;">
+        <p>${message}</p>
+        <br />
+        <hr />
+        <p style="font-size: 12px; color: #777;">⚠️ Please do not reply to this email. This inbox is not monitored.</p>
+      </div>
+    `;
 
-   
-    });
+    await sendEmail(
+      thread.userEmail,
+      "Reply from Admin",
+      emailHtml
+    );
 
-    // Respond after email is sent
-     res.status(201).json({ success: true, adminMsg, thread });
+    res.status(201).json({ success: true, adminMsg, thread });
 
   } catch (err) {
     console.error("Error in /admin/reply:", err);
