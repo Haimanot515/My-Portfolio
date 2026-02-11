@@ -142,7 +142,7 @@ const Contact = () => {
         {/* 4. BEHIND THE CODE */}
         <section style={{ padding: "120px 0", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: "80px", alignItems: "center" }}>
           <div style={{ 
-            backgroundImage: `url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000')`,
+            backgroundImage: `url('https://res.cloudinary.com/dq3jkpys8/image/upload/v1770378640/home_hero/pwll8bimogcspsbydgeg.jpg')`,
             backgroundSize: 'cover', backgroundPosition: 'center', height: "550px", 
             borderRadius: "30px", boxShadow: '30px 30px 0px #f8f8f8'
           }}></div>
