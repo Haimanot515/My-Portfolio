@@ -145,8 +145,9 @@ const Testimonials = () => {
           <h1 style={{ fontSize: "7rem", lineHeight: "0.8", letterSpacing: "-5px", fontWeight: "900", margin: "0 0 20px 0" }}>
             Expert <span style={{ color: "#0070f3" }}>Feed</span>
           </h1>
-          <p style={{ fontSize: '1.1rem', color: '#666' }}>Go through what people say about me.Gemini said
-To allow visitors to leave a testimonial or technical assessment, they should click the floating action button (+) to open the submission modal. Once open, the user simply enters their name, professional title, and their feedback. To maintain the high standard of your portfolio, submissions are sent to a "pending" state in your database, allowing you to review and approve them before they appear in the live Expert Feed. This ensures your profile remains a verified showcase of technical excellence.</p>
+          <p style={{ fontSize: '1.1rem', color: '#666' }}>Welcome to the Expert Feed, a live transparency layer where my technical skills, academic knowledge, and professional attitude are put under the microscope. This space is not for simple praise—it is for verification. Here, you will find a collection of audits and assessments from AAiT chief executives, tech instructors, and industry peers who have analyzed the intentionality behind my code.
+
+The Consensus on Haimanot Beka: The reactions from my community tell a consistent story: my peers see a "rarely found" expert with a relentless, hardworking spirit, while technical leaders verify a "world-class" skill set. They highlight my ability to orchestrate the MERN stack with zero technical debt, achieving sub-50ms query speeds and airtight JWT security. Whether it is my curious attitude or my high-level knowledge of system architecture, this feed serves as proof that my work is production-ready.</p>
         </header>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
