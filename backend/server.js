@@ -49,17 +49,33 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // --------------------
 const startServer = async () => {
   try {
+    // 1. Connect to Database
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected");
 
-    // --- API Endpoints ---
-    
-    // MATCHING YOUR FRONTEND: 
-    // If your frontend calls '.../auth/register', use these:
-    app.use("/auth", authRoutes); 
-    app.use("/landing", landingRoutes); 
+    // 2. DROP stale indexes for LandingHero to fix the Mongoose _id warning
+    // This satisfies your constraint to keep schemas/indexes in sync via dropping.
+    try {
+        const collections = await mongoose.connection.db.listCollections().toArray();
+        const exists = collections.some(col => col.name === 'landingheros');
+        if (exists) {
+            await mongoose.connection.db.collection('landingheros').dropIndexes();
+            console.log("✅ LandingHero indexes DROPPED to ensure fresh schema sync");
+        }
+    } catch (indexError) {
+        console.log("ℹ️ No legacy indexes found to drop.");
+    }
 
-    // Keeping these as /api for your other data routes
+    // -----------------------------------------------------------
+    // API Endpoints (Unified under /api)
+    // -----------------------------------------------------------
+    
+    // MOVED: These now match your frontend API.get("/landing") and API.post("/auth/register")
+    // Because your baseURL in api.jsx is "http://.../api"
+    app.use("/api/auth", authRoutes); 
+    app.use("/api/landing", landingRoutes); 
+
+    // Regular Data Routes
     app.use("/api/projects", projectsRouter);
     app.use("/api/skills", skillsRouter);
     app.use("/api/contact", contactRoutes);
@@ -70,7 +86,7 @@ const startServer = async () => {
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
 
-    // Health check (Crucial for Render)
+    // Health check (Crucial for Render monitoring)
     app.get("/", (req, res) => {
       res.send("Portfolio Backend is running!");
     });
@@ -80,9 +96,11 @@ const startServer = async () => {
       app.use(express.static(path.join(__dirname, "client/build")));
     }
 
-    // 404 handler
+    // 404 handler for any non-existent route
     app.use((req, res) => {
-      res.status(404).json({ message: "Route not found" });
+      res.status(404).json({ 
+        message: `Route ${req.originalUrl} not found. Check if /api prefix is missing.` 
+      });
     });
 
     // Global error handler
@@ -95,7 +113,7 @@ const startServer = async () => {
     // THE RENDER FIX:
     // --------------------
     const PORT = process.env.PORT || 5000;
-    // Binding to '0.0.0.0' allows Render to detect the port
+    // Binding to '0.0.0.0' allows Render to correctly detect the port
     app.listen(PORT, '0.0.0.0', () =>
       console.log(`🚀 Server running on port ${PORT}`)
     );
@@ -105,4 +123,5 @@ const startServer = async () => {
   }
 };
 
+// Start the application
 startServer();
