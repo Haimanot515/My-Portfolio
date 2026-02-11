@@ -70,7 +70,7 @@ const Footer = () => {
               </li>
               <li style={socialGroupRow}>
                 <a href="https://wa.me/" target="_blank" rel="noreferrer" style={rowIcon}><FaWhatsapp /></a>
-                <a href="https://t.me/" target="_blank" rel="noreferrer" style={rowIcon}><FaTelegram /></a>
+                <a href="https://t.me/haimasearchjobplanstart" target="_blank" rel="noreferrer" style={rowIcon}><FaTelegram /></a>
                 <a href="https://facebook.com/" target="_blank" rel="noreferrer" style={rowIcon}><FaFacebook /></a>
               </li>
             </ul>
