@@ -1,5 +1,7 @@
 const Thread = require("../models/Thread");
 const Message = require("../models/Message");
+// Import the sendEmail function from your Brevo config file
+const { sendEmail } = require("../config/nodemailer"); 
 
 exports.createThread = async (req, res) => {
   try {
@@ -35,6 +37,30 @@ exports.createThread = async (req, res) => {
     thread.unreadForAdmin += 1;
 
     await thread.save();
+
+    // --- BREVO NOTIFICATION LOGIC (Fixes transporter.sendMail error) ---
+    try {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee;">
+          <h2 style="color: #007bff;">New Message from ${name}</h2>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Message:</strong> ${message}</p>
+          <hr />
+          <p style="font-size: 12px; color: #999;">Check your portfolio admin dashboard to reply.</p>
+        </div>
+      `;
+
+      await sendEmail(
+        process.env.EMAIL_FROM, // Sends notification TO you
+        `Portfolio: New Message from ${name}`,
+        emailHtml
+      );
+      console.log("✅ Admin notification sent via Brevo");
+    } catch (mailErr) {
+      console.error("🔥 Brevo Notification failed:", mailErr.message);
+      // We don't return an error to the user because the message was saved successfully
+    }
+    // ------------------------------------------------------------------
 
     res.status(201).json({
       msg: "Message received",
