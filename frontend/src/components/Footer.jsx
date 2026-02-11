@@ -54,7 +54,7 @@ const Footer = () => {
             <div style={columnTitle}>Tech Profile</div>
             <ul style={listStyle}>
               <li>
-                <a href="https://github.com" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
+                <a href="https://github.com/Haimanot515" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
                   <FaGithub style={{ ...iconBase, color: "#171515" }} /> GitHub
                 </a>
               </li>
@@ -69,9 +69,9 @@ const Footer = () => {
                 </a>
               </li>
               <li style={socialGroupRow}>
-                <a href="https://wa.me/" target="_blank" rel="noreferrer" style={rowIcon}><FaWhatsapp /></a>
+                <a href="https://wa.me/haimanotbeka" target="_blank" rel="noreferrer" style={rowIcon}><FaWhatsapp /></a>
                 <a href="https://t.me/haimasearchjobplanstart" target="_blank" rel="noreferrer" style={rowIcon}><FaTelegram /></a>
-                <a href="https://facebook.com/" target="_blank" rel="noreferrer" style={rowIcon}><FaFacebook /></a>
+                <a href="https://facebook.com/haimanotbeka" target="_blank" rel="noreferrer" style={rowIcon}><FaFacebook /></a>
               </li>
             </ul>
           </div>
@@ -81,7 +81,7 @@ const Footer = () => {
             <div style={columnTitle}>Social Connect</div>
             <ul style={listStyle}>
               <li>
-                <a href="https://linkedin.com" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
+                <a href="https://linkedin.com/in/haimanotbeka" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
                   <FaLinkedin style={{ ...iconBase, color: "#0077b5" }} /> LinkedIn
                 </a>
               </li>
@@ -91,12 +91,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
+                <a href="https://instagram.com/haimanotbeka" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
                   <FaInstagram style={{ ...iconBase, color: "#E4405F" }} /> Instagram
                 </a>
               </li>
               <li>
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
+                <a href="https://youtube.com/@haimanotbeka" target="_blank" rel="noreferrer" style={socialLinkItem} className="footer-link">
                   <FaYoutube style={{ ...iconBase, color: "#FF0000" }} /> YouTube
                 </a>
               </li>
@@ -113,8 +113,8 @@ const Footer = () => {
             © {currentYear} Haimanot Beka Mekonnen. Built with Precision in Addis Ababa.
           </div>
           <div style={socialIconsRow}>
-            <a href="https://github.com" target="_blank" rel="noreferrer" style={bottomIcon}><FaGithub /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" style={bottomIcon}><FaLinkedin /></a>
+            <a href="https://github.com/Haimanot515" target="_blank" rel="noreferrer" style={bottomIcon}><FaGithub /></a>
+            <a href="https://linkedin.com/in/haimanotbeka" target="_blank" rel="noreferrer" style={bottomIcon}><FaLinkedin /></a>
             <a href="mailto:haimanotbeka@gmail.com" style={bottomIcon}><FaEnvelope /></a>
           </div>
         </div>
@@ -157,7 +157,7 @@ const backToTop = {
 };
 
 const mainFooter = {
-  padding: "100px 0", // Increased padding for better "breathability"
+  padding: "100px 0", 
   background: "#ffffff",
   display: "flex",
   justifyContent: "center",
@@ -167,7 +167,7 @@ const gridContainer = {
   width: "100%",
   maxWidth: "1100px",
   display: "grid",
-  gridTemplateColumns: "1.5fr 1fr 1fr 1fr", // Gives brand column more space
+  gridTemplateColumns: "1.5fr 1fr 1fr 1fr", 
   gap: "60px",
   padding: "0 20px",
 };
