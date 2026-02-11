@@ -132,7 +132,7 @@ const Footer = () => {
   );
 };
 
-// --- Enhanced Styles ---
+// --- Styles ---
 
 const footerWrapper = {
   fontFamily: "'Inter', sans-serif",
