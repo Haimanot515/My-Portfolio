@@ -115,7 +115,7 @@ const Footer = () => {
           <div style={socialIconsRow}>
             <a href="https://github.com" target="_blank" rel="noreferrer" style={bottomIcon}><FaGithub /></a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" style={bottomIcon}><FaLinkedin /></a>
-            <a href="mailto:contact@yourdomain.com" style={bottomIcon}><FaEnvelope /></a>
+            <a href="mailto:haimanotbeka@gmail.com" style={bottomIcon}><FaEnvelope /></a>
           </div>
         </div>
       </div>
