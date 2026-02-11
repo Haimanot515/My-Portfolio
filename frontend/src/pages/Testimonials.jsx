@@ -145,7 +145,8 @@ const Testimonials = () => {
           <h1 style={{ fontSize: "7rem", lineHeight: "0.8", letterSpacing: "-5px", fontWeight: "900", margin: "0 0 20px 0" }}>
             Expert <span style={{ color: "#0070f3" }}>Feed</span>
           </h1>
-          <p style={{ fontSize: '1.1rem', color: '#666' }}>Go through what people say about me.You can also put your own verificationfora Haimanot clicking the floatig button.</p>
+          <p style={{ fontSize: '1.1rem', color: '#666' }}>Go through what people say about me.Gemini said
+To allow visitors to leave a testimonial or technical assessment, they should click the floating action button (+) to open the submission modal. Once open, the user simply enters their name, professional title, and their feedback. To maintain the high standard of your portfolio, submissions are sent to a "pending" state in your database, allowing you to review and approve them before they appear in the live Expert Feed. This ensures your profile remains a verified showcase of technical excellence.</p>
         </header>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
