@@ -145,7 +145,7 @@ const Testimonials = () => {
           <h1 style={{ fontSize: "7rem", lineHeight: "0.8", letterSpacing: "-5px", fontWeight: "900", margin: "0 0 20px 0" }}>
             Expert <span style={{ color: "#0070f3" }}>Feed</span>
           </h1>
-          <p style={{ fontSize: '1.1rem', color: '#666' }}>Sorted by Newest Assessment.</p>
+          <p style={{ fontSize: '1.1rem', color: '#666' }}>Go through what people say about me.You can also put your own verificationfora Haimanot clicking the floatig button.</p>
         </header>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
