@@ -78,7 +78,7 @@ const Home = () => {
               }} 
             />
           )}
-          <div style={{ fontWeight: '800', fontSize: '1.2rem' }}>H.Mekonnen</div>
+          <div style={{ fontWeight: '800', fontSize: '1.2rem' }}>Haimanot Beka</div>
         </div>
 
         {/* LOGO STYLE - NOW DYNAMIC BASED ON CALENDAR */}
@@ -97,7 +97,7 @@ const Home = () => {
           <a href="#about" style={{ textDecoration: 'none', color: '#111' }}>My Story</a>
           <a href="#skills" style={{ textDecoration: 'none', color: '#111' }}>Languages</a>
           <a href="#work" style={{ textDecoration: 'none', color: '#111' }}>Features</a>
-          <a href="/footer" style={{ textDecoration: 'none', color: '#0070f3' }}>Get in Touch</a>
+         
         </div>
       </nav>
 
