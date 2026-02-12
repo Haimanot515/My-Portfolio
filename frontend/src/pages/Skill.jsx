@@ -37,7 +37,7 @@ const Skill = () => {
     fetchData();
   }, []);
 
-  // Filter Logic: Matches exact strings from your DB record
+  // Filter Logic: Corrected to match "Programming Languages"
   const handleFilter = (cat) => {
     setActiveCategory(cat);
     if (cat === "All") {
@@ -83,11 +83,11 @@ const Skill = () => {
             <span style={{ color: '#0070f3' }}>{yearLastTwo}</span>
           </div>
           <div style={{ fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px', color: '#888' }}>
-            {activeCategory === "All" ? "Repository Index" : activeCategory}
+            {activeCategory === "All" ? "Programming Languages" : activeCategory}
           </div>
         </div>
         
-        {/* CORRECTED NAV LINKS: "Programming Languages" now matches your DB record exactly */}
+        {/* UPDATED NAV LINKS: "Programming Languages" matches DB */}
         <div style={{ display: 'flex', gap: '30px', fontWeight: '500', minWidth: '180px', justifyContent: 'flex-end', fontSize: '0.9rem' }}>
           <span onClick={() => handleFilter("Programming Languages")} style={{ cursor: 'pointer', color: activeCategory === "Programming Languages" ? '#0070f3' : '#111' }}>Languages</span>
           <span onClick={() => handleFilter("Cybersecurity")} style={{ cursor: 'pointer', color: activeCategory === "Cybersecurity" ? '#0070f3' : '#111' }}>Cybersecurity</span>
@@ -99,40 +99,41 @@ const Skill = () => {
 
       <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
         
-        {/* 2. HERO SECTION */}
+        {/* 2. HERO SECTION - Decreased vertical spacing */}
         <section style={{ 
           display: 'flex', 
-          alignItems: 'stretch', 
+          alignItems: 'center', 
           gap: '60px', 
           flexWrap: 'wrap', 
-          padding: '60px 0', 
-          minHeight: '70vh' 
+          padding: '40px 0', 
+          minHeight: '60vh' 
         }}>
           <div style={{ flex: 1.5, minWidth: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h1 style={{ 
-              fontSize: '5rem', 
-              lineHeight: '0.9', 
-              marginBottom: '40px', 
+              fontSize: '4.5rem', 
+              lineHeight: '0.85', 
+              marginBottom: '20px', 
               letterSpacing: '-3px',
               fontWeight: '900'
             }}>
-              {hero?.title || "Technology"} <br/><br/>
+              {hero?.title || "Technology"} <br/>
               <span style={{ color: '#0070f3' }}>{hero?.subtitle || "Mastery"}</span>
             </h1>
 
             <p style={{ 
-              fontSize: '1.2rem',
+              fontSize: '1.1rem',
               color: '#111',
-              lineHeight: '1.7',
+              lineHeight: '1.6',
               textAlign: 'justify',
               maxWidth: '550px',
-              fontWeight: '500'
+              fontWeight: '500',
+              margin: '0'
             }}>
               {hero?.description || "Loading specialized tools and architectural foundations for the repository..."}
             </p>
 
             {hero?.quote && (
-              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px' }}>
+              <p style={{ marginTop: '15px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.9rem' }}>
                 "{hero.quote}"
               </p>
             )}
@@ -148,16 +149,16 @@ const Skill = () => {
                   borderRadius: '24px', 
                   boxShadow: '20px 20px 0px #f8f8f8', 
                   objectFit: 'cover',
-                  height: '500px'
+                  height: '420px'
                 }} 
               />
             ) : (
-              <div style={{ width: '100%', height: '500px', background: '#f8f8f8', borderRadius: '24px' }}></div>
+              <div style={{ width: '100%', height: '420px', background: '#f8f8f8', borderRadius: '24px' }}></div>
             )}
           </div>
         </section>
 
-        <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 80px 0' }} />
+        <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 60px 0' }} />
 
         {/* 3. SKILLS GRID */}
         <section style={{ paddingBottom: '120px' }}>
@@ -166,89 +167,83 @@ const Skill = () => {
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
             gap: '40px' 
           }}>
-            {filteredSkills.length > 0 ? (
-              filteredSkills.map((skill, index) => (
-                <div 
-                  key={skill._id || index} 
-                  style={{ 
-                    padding: '40px', 
-                    border: '1px solid #f0f0f0', 
-                    borderRadius: '24px', 
-                    backgroundColor: '#fff',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '20px',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <img 
-                      src={skill.image || "https://via.placeholder.com/60"} 
-                      alt={skill.name} 
-                      style={{ width: '60px', height: '60px', objectFit: 'contain' }} 
-                    />
-                    <span style={{ 
-                      fontSize: '0.7rem', 
-                      fontWeight: '900', 
-                      color: '#0070f3', 
-                      textTransform: 'uppercase', 
-                      letterSpacing: '1px',
-                      background: '#f0f7ff',
-                      padding: '4px 12px',
-                      borderRadius: '100px'
-                    }}>
-                      {skill.level}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 style={{ margin: '0', fontSize: '1.8rem', fontWeight: '800', letterSpacing: '-1px' }}>
-                      {skill.name}
-                    </h3>
-                  </div>
-
-                  <p style={{ 
-                    fontSize: '0.95rem', 
-                    lineHeight: '1.6', 
-                    color: '#555', 
-                    margin: '0',
-                    minHeight: '80px'
+            {filteredSkills.map((skill, index) => (
+              <div 
+                key={skill._id || index} 
+                style={{ 
+                  padding: '40px', 
+                  border: '1px solid #f0f0f0', 
+                  borderRadius: '24px', 
+                  backgroundColor: '#fff',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '20px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <img 
+                    src={skill.image || "https://via.placeholder.com/60"} 
+                    alt={skill.name} 
+                    style={{ width: '60px', height: '60px', objectFit: 'contain' }} 
+                  />
+                  <span style={{ 
+                    fontSize: '0.7rem', 
+                    fontWeight: '900', 
+                    color: '#0070f3', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1px',
+                    background: '#f0f7ff',
+                    padding: '4px 12px',
+                    borderRadius: '100px'
                   }}>
-                    {skill.story || `Specialized implementation and architectural integration of ${skill.name}.`}
-                  </p>
-
-                  <div style={{ 
-                    display: 'flex', 
-                    gap: '15px', 
-                    marginTop: '10px', 
-                    paddingTop: '20px', 
-                    borderTop: '1px solid #f5f5f5' 
-                  }}>
-                    {['Where', 'When', 'How'].map((label) => (
-                      <a 
-                        key={label}
-                        href={skill[`${label.toLowerCase()}Link`] || "#"} 
-                        style={{ 
-                          fontSize: '0.75rem', 
-                          fontWeight: '800', 
-                          color: '#111', 
-                          textDecoration: 'none', 
-                          borderBottom: '2px solid #eee',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.5px'
-                        }}
-                      >
-                        {label}
-                      </a>
-                    ))}
-                  </div>
+                    {skill.level}
+                  </span>
                 </div>
-              ))
-            ) : (
-              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '50px' }}>
-                <p style={{ color: '#888', fontWeight: '700' }}>No skills found for {activeCategory}.</p>
+
+                <div>
+                  <h3 style={{ margin: '0', fontSize: '1.8rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                    {skill.name}
+                  </h3>
+                </div>
+
+                <p style={{ 
+                  fontSize: '0.95rem', 
+                  lineHeight: '1.6', 
+                  color: '#555', 
+                  margin: '0',
+                  minHeight: '80px'
+                }}>
+                  {skill.story || `Specialized implementation and architectural integration of ${skill.name}.`}
+                </p>
+
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '15px', 
+                  marginTop: '10px', 
+                  paddingTop: '20px', 
+                  borderTop: '1px solid #f5f5f5' 
+                }}>
+                  {['Where', 'When', 'How'].map((label) => (
+                    <a 
+                      key={label}
+                      href={skill[`${label.toLowerCase()}Link`] || "#"} 
+                      style={{ 
+                        fontSize: '0.75rem', 
+                        fontWeight: '800', 
+                        color: '#111', 
+                        textDecoration: 'none', 
+                        borderBottom: '2px solid #eee',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px'
+                      }}
+                    >
+                      {label}
+                    </a>
+                  ))}
+                </div>
               </div>
-            )}
+            ))}
           </div>
         </section>
       </main>
