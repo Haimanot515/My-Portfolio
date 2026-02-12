@@ -61,7 +61,7 @@ const Projects = () => {
       {/* 1. NAVIGATION BAR */}
       <nav style={{ 
         height: "80px", 
-        padding: '20px 50px', 
+        padding: '0 50px', 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
@@ -95,7 +95,7 @@ const Projects = () => {
           </div>
         </div>
         
-        {/* Category Links */}
+        {/* Category Links - Corrected Logic */}
         <div className="category-scroll" style={{ 
           display: 'flex', 
           gap: '25px', 
