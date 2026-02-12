@@ -14,6 +14,18 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  /* ADDED CATEGORY */
+  category: {
+    type: String,
+    required: true,
+    enum: [
+      "All", "Full-Stack", "Frontend", "Backend", "Mobile App", 
+      "SaaS", "AI/ML", "UI/UX", "Blockchain", "Cybersecurity", 
+      "Cloud Native", "DevOps", "Data Science", "E-commerce", 
+      "API Design", "Open Source", "Automation"
+    ],
+    default: "All"
+  },
   image: {
     type: String,
     default: ""
