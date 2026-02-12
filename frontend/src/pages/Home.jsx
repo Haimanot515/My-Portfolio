@@ -147,7 +147,7 @@ const Home = () => {
 >
   Explore Projects
 </Link>
-              <button style={{ padding: '16px 28px', background: 'transparent', border: '1px solid #111', borderRadius: '8px', fontWeight: 'bold' }}>Get CV</button>
+              <Link to="/cv" style={{ padding: '16px 28px', background: 'transparent', border: '1px solid #111', borderRadius: '8px', fontWeight: 'bold' }}>Get CV</Link>
             </div>
           </div>
           
@@ -223,7 +223,7 @@ const Home = () => {
                   <div style={{ flex: 1, minWidth: '300px' }}>
                     <h3 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>{project.title}</h3>
                     <p style={{ ...paragraphStyle, fontSize: '1.2rem', marginBottom: '20px' }}>
-                      <strong style={{color: '#0070f3'}}>OAA </strong> {project.description}
+                      <strong style={{color: '#0070f3'}}></strong> {project.description}
                     </p>
 
                     <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '25px' }}>
