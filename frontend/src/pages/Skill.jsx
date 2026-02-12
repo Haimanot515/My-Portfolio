@@ -23,7 +23,7 @@ const Skill = () => {
         ]);
         
         setSkills(skillsRes.data);
-        setFilteredSkills(skillsRes.data); // Initialize filtered list
+        setFilteredSkills(skillsRes.data); // Initialize filtered list with ALL
         
         const heroData = Array.isArray(heroRes.data) ? heroRes.data[0] : heroRes.data;
         setHero(heroData);
@@ -37,7 +37,7 @@ const Skill = () => {
     fetchData();
   }, []);
 
-  // Filter Logic: Corrected to match "Programming Languages"
+  // Filter Logic matching the Schema Enum exactly
   const handleFilter = (cat) => {
     setActiveCategory(cat);
     if (cat === "All") {
@@ -50,7 +50,7 @@ const Skill = () => {
   return (
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', minHeight: '100vh' }}>
       
-      {/* 1. NAVIGATION BAR - SCROLLABLE & COMPACT */}
+      {/* 1. NAVIGATION BAR - SCROLLABLE CATEGORIES */}
       <nav style={{ 
         height: "80px", 
         padding: '20px 50px', 
@@ -77,29 +77,31 @@ const Skill = () => {
         </div>
 
         {/* 2026 REPOSITORY LOGO */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', userSelect: 'none', padding: '0 20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', userSelect: 'none' }}>
           <div style={{ fontWeight: '900', fontSize: '1.5rem', lineHeight: '1' }}>
             <span style={{ color: '#eee' }}>{yearFirstTwo}</span>
             <span style={{ color: '#0070f3' }}>{yearLastTwo}</span>
           </div>
           <div style={{ fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px', color: '#888' }}>
-            {activeCategory === "All" ? "Programming Languages" : activeCategory}
+            {activeCategory === "All" ? "Full Stack Repository" : activeCategory}
           </div>
         </div>
         
-        {/* SCROLLABLE NAV LINKS: Added DevOps & Mobile */}
+        {/* SCROLLABLE NAV LINKS - ALL ENUM CATEGORIES */}
         <div style={{ 
           display: 'flex', 
-          gap: '25px', 
-          fontWeight: '500', 
-          fontSize: '0.85rem',
+          gap: '20px', 
+          fontWeight: '600', 
+          fontSize: '0.8rem',
           overflowX: 'auto',
           msOverflowStyle: 'none',
-          scrollbarWidth: 'none',
-          paddingLeft: '20px',
-          maxWidth: '500px'
+          scrollbarWidth: 'none', // Hides scrollbar on Firefox
+          paddingLeft: '30px',
+          maxWidth: '600px',
+          textTransform: 'uppercase'
         }}>
-          {["Programming Languages", "Cybersecurity", "Backend", "Frontend", "AI", "DevOps", "Mobile"].map((cat) => (
+          <span onClick={() => handleFilter("All")} style={{ cursor: 'pointer', color: activeCategory === "All" ? '#0070f3' : '#ccc' }}>[All]</span>
+          {["Programming Languages", "Cybersecurity", "Frontend", "Backend", "AI", "DevOps", "Mobile"].map((cat) => (
             <span 
               key={cat}
               onClick={() => handleFilter(cat)} 
@@ -107,13 +109,12 @@ const Skill = () => {
                 cursor: 'pointer', 
                 color: activeCategory === cat ? '#0070f3' : '#111',
                 whiteSpace: 'nowrap',
-                transition: 'color 0.2s'
+                transition: '0.2s'
               }}
             >
               {cat === "Programming Languages" ? "Languages" : cat}
             </span>
           ))}
-          <span onClick={() => handleFilter("All")} style={{ cursor: 'pointer', color: '#888', fontSize: '0.7rem' }}>[RESET]</span>
         </div>
       </nav>
 
@@ -141,7 +142,7 @@ const Skill = () => {
             </h1>
 
             <p style={{ 
-              fontSize: '1.1rem',
+              fontSize: '1.05rem',
               color: '#111',
               lineHeight: '1.5',
               textAlign: 'justify',
@@ -149,11 +150,11 @@ const Skill = () => {
               fontWeight: '500',
               margin: '0'
             }}>
-              {hero?.description || "Loading specialized tools and architectural foundations for the repository..."}
+              {hero?.description || "Architecting the technical foundations of the repository..."}
             </p>
 
             {hero?.quote && (
-              <p style={{ marginTop: '15px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.9rem' }}>
+              <p style={{ marginTop: '12px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.9rem' }}>
                 "{hero.quote}"
               </p>
             )}
@@ -167,13 +168,13 @@ const Skill = () => {
                 style={{ 
                   width: '100%', 
                   borderRadius: '24px', 
-                  boxShadow: '20px 20px 0px #f8f8f8', 
+                  boxShadow: '15px 15px 0px #f8f8f8', 
                   objectFit: 'cover',
-                  height: '400px'
+                  height: '380px'
                 }} 
               />
             ) : (
-              <div style={{ width: '100%', height: '400px', background: '#f8f8f8', borderRadius: '24px' }}></div>
+              <div style={{ width: '100%', height: '380px', background: '#f8f8f8', borderRadius: '24px' }}></div>
             )}
           </div>
         </section>
@@ -181,23 +182,23 @@ const Skill = () => {
         <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 50px 0' }} />
 
         {/* 3. SKILLS GRID */}
-        <section style={{ paddingBottom: '120px' }}>
+        <section style={{ paddingBottom: '100px' }}>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
-            gap: '40px' 
+            gap: '30px' 
           }}>
             {filteredSkills.map((skill, index) => (
               <div 
                 key={skill._id || index} 
                 style={{ 
-                  padding: '40px', 
+                  padding: '35px', 
                   border: '1px solid #f0f0f0', 
                   borderRadius: '24px', 
                   backgroundColor: '#fff',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '20px',
+                  gap: '15px',
                   boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
                 }}
               >
@@ -205,34 +206,32 @@ const Skill = () => {
                   <img 
                     src={skill.image || "https://via.placeholder.com/60"} 
                     alt={skill.name} 
-                    style={{ width: '60px', height: '60px', objectFit: 'contain' }} 
+                    style={{ width: '50px', height: '50px', objectFit: 'contain' }} 
                   />
                   <span style={{ 
-                    fontSize: '0.7rem', 
+                    fontSize: '0.65rem', 
                     fontWeight: '900', 
                     color: '#0070f3', 
                     textTransform: 'uppercase', 
                     letterSpacing: '1px',
                     background: '#f0f7ff',
-                    padding: '4px 12px',
+                    padding: '4px 10px',
                     borderRadius: '100px'
                   }}>
                     {skill.level}
                   </span>
                 </div>
 
-                <div>
-                  <h3 style={{ margin: '0', fontSize: '1.8rem', fontWeight: '800', letterSpacing: '-1px' }}>
-                    {skill.name}
-                  </h3>
-                </div>
+                <h3 style={{ margin: '0', fontSize: '1.6rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                  {skill.name}
+                </h3>
 
                 <p style={{ 
-                  fontSize: '0.95rem', 
-                  lineHeight: '1.6', 
+                  fontSize: '0.9rem', 
+                  lineHeight: '1.5', 
                   color: '#555', 
                   margin: '0',
-                  minHeight: '80px'
+                  minHeight: '60px'
                 }}>
                   {skill.story || `Specialized implementation and architectural integration of ${skill.name}.`}
                 </p>
@@ -241,7 +240,7 @@ const Skill = () => {
                   display: 'flex', 
                   gap: '15px', 
                   marginTop: '10px', 
-                  paddingTop: '20px', 
+                  paddingTop: '15px', 
                   borderTop: '1px solid #f5f5f5' 
                 }}>
                   {['Where', 'When', 'How'].map((label) => (
@@ -249,13 +248,12 @@ const Skill = () => {
                       key={label}
                       href={skill[`${label.toLowerCase()}Link`] || "#"} 
                       style={{ 
-                        fontSize: '0.75rem', 
+                        fontSize: '0.7rem', 
                         fontWeight: '800', 
                         color: '#111', 
                         textDecoration: 'none', 
                         borderBottom: '2px solid #eee',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px'
+                        textTransform: 'uppercase'
                       }}
                     >
                       {label}
