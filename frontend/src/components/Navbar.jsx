@@ -4,6 +4,7 @@ import Form from "../pages/Registration/Form";
 import Verify from "../pages/Registration/Verify"; 
 import { Link, useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import "./Navbar.css"; // Added the CSS import
 
 const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
   const navigate = useNavigate();
@@ -55,46 +56,6 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
     setShowVerify(true);
   };
 
-  const centeredCardStyle = {
-    position: "relative", 
-    backgroundColor: "#fff", 
-    padding: "35px",
-    borderRadius: "16px",
-    width: "400px",
-    maxWidth: "90%",
-    boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
-    zIndex: 1001,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center"
-  };
-
-  const overlayStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
-    display: "flex",
-    justifyContent: "center", 
-    alignItems: "center",     
-    zIndex: 1000
-  };
-
-  // Specifically styling the button to be centered just below the top edge
-  const closeBtnStyle = {
-    border: 'none', 
-    background: 'none', 
-    cursor: 'pointer', 
-    marginBottom: '20px',
-    marginTop: '-10px', // Pulls it slightly closer to the top edge inside
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%'
-  };
-
   return (
     <>
       <nav className="navbar">
@@ -114,7 +75,7 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
             </div>
           </>
         ) : (
-          <div className="nav-links" style={{ width: "100%", justifyContent: "space-around" }}>
+          <div className="nav-links nav-links-logged-in">
             <Link to="/home">Home</Link>
             <Link to="/projects">Projects</Link>
             <Link to="/skill">Skills</Link>
@@ -131,10 +92,10 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
 
       {/* LOGIN MODAL */}
       {showLogin && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
+        <div className="modal-overlay" onClick={closeModals}>
+          <div className="centered-auth-card" onClick={(e) => e.stopPropagation()}>
+            <button onClick={closeModals} className="modal-close-btn">
+              <FaTimes className="modal-close-icon" />
             </button>
             <Login 
                 setLoggedIn={setLoggedIn} 
@@ -148,10 +109,10 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
 
       {/* REGISTER MODAL */}
       {showRegister && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
+        <div className="modal-overlay" onClick={closeModals}>
+          <div className="centered-auth-card" onClick={(e) => e.stopPropagation()}>
+            <button onClick={closeModals} className="modal-close-btn">
+              <FaTimes className="modal-close-icon" />
             </button>
             <Form 
                 closeModal={closeModals} 
@@ -164,10 +125,10 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
 
       {/* VERIFY MODAL */}
       {showVerify && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
+        <div className="modal-overlay" onClick={closeModals}>
+          <div className="centered-auth-card" onClick={(e) => e.stopPropagation()}>
+            <button onClick={closeModals} className="modal-close-btn">
+              <FaTimes className="modal-close-icon" />
             </button>
             <Verify 
               setLoggedIn={setLoggedIn} 
