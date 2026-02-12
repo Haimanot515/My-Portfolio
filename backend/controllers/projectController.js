@@ -13,7 +13,7 @@ exports.getProjects = async (req, res) => {
 
 exports.createProject = async (req, res) => {
   try {
-    // Added all 4 essential links for Upwork conversion
+    // Added all 4 essential links for Upwork conversion + category
     const { 
       title, 
       description, 
@@ -21,7 +21,8 @@ exports.createProject = async (req, res) => {
       githubLink, 
       liveLink, 
       demoLink, 
-      docsLink 
+      docsLink,
+      category // ADDED CATEGORY
     } = req.body;
 
     // Basic validation
@@ -51,6 +52,7 @@ exports.createProject = async (req, res) => {
     const project = await Project.create({
       title,
       description,
+      category, // ADDED CATEGORY
       techStack: Array.isArray(techStack) ? techStack : techStack.split(','), // Ensure it's an array
       githubLink,
       liveLink,
