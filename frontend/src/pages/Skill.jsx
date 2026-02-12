@@ -13,6 +13,12 @@ const Skill = () => {
   const yearFirstTwo = currentYear.toString().slice(0, 2);
   const yearLastTwo = currentYear.toString().slice(2, 4);
 
+  // Categories list ensuring "All" and "Programming Languages" are distinct
+  const categories = [
+    "All", "Programming Languages", "Cybersecurity", "Frontend", 
+    "Backend", "AI", "DevOps", "Mobile"
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,19 +46,19 @@ const Skill = () => {
   const handleFilter = (cat) => {
     setActiveCategory(cat);
     if (cat === "All") {
-      setFilteredSkills(skills); // Shows everything
+      setFilteredSkills(skills);
     } else {
-      setFilteredSkills(skills.filter(s => s.category === cat)); // Explicit category filter
+      setFilteredSkills(skills.filter(s => s.category === cat));
     }
   };
 
   return (
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', minHeight: '100vh' }}>
       
-      {/* 1. NAVIGATION BAR - SCROLLABLE CATEGORIES */}
+      {/* 1. NAVIGATION BAR - CONSISTENT WITH PROJECTS */}
       <nav style={{ 
         height: "80px", 
-        padding: '20px 50px', 
+        padding: '0 50px', 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
@@ -64,7 +70,7 @@ const Skill = () => {
         borderBottom: '1px solid #eee' 
       }}>
         {/* Profile Section */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '160px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '180px' }}>
           {mainHero?.image && (
             <img 
               src={mainHero.image} 
@@ -82,43 +88,32 @@ const Skill = () => {
             <span style={{ color: '#0070f3' }}>{yearLastTwo}</span>
           </div>
           <div style={{ fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px', color: '#888' }}>
-            {activeCategory === "All" ? "Full Stack Repository" : activeCategory}
+            {activeCategory === "All" ? "Repository" : activeCategory}
           </div>
         </div>
         
-        {/* SCROLLABLE NAV LINKS - "ALL" IS SEPARATE FROM "LANGUAGES" */}
-        <div style={{ 
+        {/* Category Links - Exact Styling from your Projects code */}
+        <div className="category-scroll" style={{ 
           display: 'flex', 
-          gap: '20px', 
-          fontWeight: '600', 
-          fontSize: '0.8rem',
+          gap: '25px', 
+          fontWeight: '500', 
+          fontSize: '0.9rem',
+          maxWidth: '450px',
           overflowX: 'auto',
-          msOverflowStyle: 'none',
-          scrollbarWidth: 'none', 
-          paddingLeft: '30px',
-          maxWidth: '600px',
-          textTransform: 'uppercase'
+          padding: '5px 10px',
+          scrollbarWidth: 'none'
         }}>
-          <span 
-            onClick={() => handleFilter("All")} 
-            style={{ 
-              cursor: 'pointer', 
-              color: activeCategory === "All" ? '#0070f3' : '#ccc',
-              paddingRight: '10px',
-              borderRight: '1px solid #eee'
-            }}
-          >
-            [All]
-          </span>
-          {["Programming Languages", "Cybersecurity", "Frontend", "Backend", "AI", "DevOps", "Mobile"].map((cat) => (
-            <span 
+          <style>{`.category-scroll::-webkit-scrollbar { display: none; }`}</style>
+          {categories.map((cat) => (
+            <span
               key={cat}
-              onClick={() => handleFilter(cat)} 
+              onClick={() => handleFilter(cat)}
               style={{ 
-                cursor: 'pointer', 
-                color: activeCategory === cat ? '#0070f3' : '#111',
+                cursor: 'pointer',
                 whiteSpace: 'nowrap',
-                transition: '0.2s'
+                color: activeCategory === cat ? '#0070f3' : '#111',
+                transition: 'color 0.2s ease',
+                fontWeight: activeCategory === cat ? '700' : '500'
               }}
             >
               {cat === "Programming Languages" ? "Languages" : cat}
@@ -132,82 +127,89 @@ const Skill = () => {
         {/* 2. HERO SECTION - TIGHT VERTICAL SPACING */}
         <section style={{ 
           display: 'flex', 
-          alignItems: 'center', 
+          alignItems: 'flex-start', 
           gap: '60px', 
           flexWrap: 'wrap', 
-          padding: '30px 0', 
-          minHeight: '55vh' 
+          padding: '60px 0', 
+          minHeight: '60vh' 
         }}>
-          <div style={{ flex: 1.5, minWidth: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ flex: 1.5, minWidth: '350px' }}>
             <h1 style={{ 
-              fontSize: '4.5rem', 
-              lineHeight: '0.85', 
-              marginBottom: '15px', 
+              fontSize: '5rem', 
+              lineHeight: '0.9', 
+              marginBottom: '40px', 
               letterSpacing: '-3px',
               fontWeight: '900'
             }}>
-              {hero?.title || "Technology"} <br/>
-              <span style={{ color: '#0070f3' }}>{hero?.subtitle || "Mastery"}</span>
+              {hero?.title ? (
+                <>
+                  {hero.title.split(' ').slice(0, -1).join(' ')} <br/>
+                  <span style={{ color: '#0070f3' }}>
+                    {hero.title.split(' ').slice(-1)}
+                  </span>
+                </>
+              ) : (
+                <>Technical <br/><span style={{ color: '#0070f3' }}>Mastery</span></>
+              )}
             </h1>
 
             <p style={{ 
-              fontSize: '1.05rem',
-              color: '#111',
-              lineHeight: '1.5',
+              fontSize: '1.2rem',
+              color: '#555',
+              lineHeight: '1.7',
               textAlign: 'justify',
-              maxWidth: '550px',
-              fontWeight: '500',
-              margin: '0'
+              maxWidth: '550px'
             }}>
-              {hero?.description || "Architecting the technical foundations of the repository..."}
+              {hero?.description || "Architecting technical foundations and specialized implementations within the repository."}
             </p>
 
             {hero?.quote && (
-              <p style={{ marginTop: '12px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.9rem' }}>
+              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.95rem' }}>
                 "{hero.quote}"
               </p>
             )}
           </div>
           
-          <div style={{ flex: 1, minWidth: '350px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1, minWidth: '350px' }}>
             {hero?.image ? (
               <img 
                 src={hero.image} 
                 alt="Technical Architecture" 
                 style={{ 
+                  marginTop: "55px",
                   width: '100%', 
                   borderRadius: '24px', 
-                  boxShadow: '15px 15px 0px #f8f8f8', 
+                  boxShadow: '20px 20px 0px #f8f8f8', 
                   objectFit: 'cover',
-                  height: '380px'
+                  height: '550px'
                 }} 
               />
             ) : (
-              <div style={{ width: '100%', height: '380px', background: '#f8f8f8', borderRadius: '24px' }}></div>
+              <div style={{ width: '100%', height: '550px', background: '#f8f8f8', borderRadius: '24px', marginTop: "55px" }}></div>
             )}
           </div>
         </section>
 
-        <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 50px 0' }} />
+        <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 80px 0' }} />
 
         {/* 3. SKILLS GRID */}
         <section style={{ paddingBottom: '100px' }}>
           <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
-            gap: '30px' 
+            display: "grid", 
+            gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", 
+            gap: "50px" 
           }}>
             {filteredSkills.map((skill, index) => (
               <div 
                 key={skill._id || index} 
                 style={{ 
-                  padding: '35px', 
+                  padding: '40px', 
                   border: '1px solid #f0f0f0', 
                   borderRadius: '24px', 
                   backgroundColor: '#fff',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '15px',
+                  gap: '20px',
                   boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
                 }}
               >
@@ -218,38 +220,38 @@ const Skill = () => {
                     style={{ width: '50px', height: '50px', objectFit: 'contain' }} 
                   />
                   <span style={{ 
-                    fontSize: '0.65rem', 
+                    fontSize: '0.7rem', 
                     fontWeight: '900', 
                     color: '#0070f3', 
                     textTransform: 'uppercase', 
                     letterSpacing: '1px',
                     background: '#f0f7ff',
-                    padding: '4px 10px',
+                    padding: '4px 12px',
                     borderRadius: '100px'
                   }}>
                     {skill.level}
                   </span>
                 </div>
 
-                <h3 style={{ margin: '0', fontSize: '1.6rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                <h3 style={{ margin: '0', fontSize: '1.8rem', fontWeight: '800', letterSpacing: '-1px' }}>
                   {skill.name}
                 </h3>
 
                 <p style={{ 
-                  fontSize: '0.9rem', 
-                  lineHeight: '1.5', 
+                  fontSize: '0.95rem', 
+                  lineHeight: '1.6', 
                   color: '#555', 
                   margin: '0',
-                  minHeight: '60px'
+                  minHeight: '80px'
                 }}>
-                  {skill.story || `Specialized implementation and architectural integration of ${skill.name}.`}
+                  {skill.story || `Specialized implementation of ${skill.name}.`}
                 </p>
 
                 <div style={{ 
                   display: 'flex', 
                   gap: '15px', 
                   marginTop: '10px', 
-                  paddingTop: '15px', 
+                  paddingTop: '20px', 
                   borderTop: '1px solid #f5f5f5' 
                 }}>
                   {['Where', 'When', 'How'].map((label) => (
@@ -257,7 +259,7 @@ const Skill = () => {
                       key={label}
                       href={skill[`${label.toLowerCase()}Link`] || "#"} 
                       style={{ 
-                        fontSize: '0.7rem', 
+                        fontSize: '0.75rem', 
                         fontWeight: '800', 
                         color: '#111', 
                         textDecoration: 'none', 
