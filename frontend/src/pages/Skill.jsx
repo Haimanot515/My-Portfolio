@@ -3,12 +3,11 @@ import API from "../api/api.jsx";
 
 const Skill = () => {
   const [skills, setSkills] = useState([]);
-  const [filteredSkills, setFilteredSkills] = useState([]); // Logic for filtering
+  const [filteredSkills, setFilteredSkills] = useState([]); 
   const [activeCategory, setActiveCategory] = useState("All");
   const [hero, setHero] = useState(null); 
   const [mainHero, setMainHero] = useState(null);
 
-  // Logic for dynamic calendar year
   const currentYear = new Date().getFullYear();
   const yearFirstTwo = currentYear.toString().slice(0, 2);
   const yearLastTwo = currentYear.toString().slice(2, 4);
@@ -23,7 +22,7 @@ const Skill = () => {
         ]);
         
         setSkills(skillsRes.data);
-        setFilteredSkills(skillsRes.data); // Initialize filtered list
+        setFilteredSkills(skillsRes.data);
         
         const heroData = Array.isArray(heroRes.data) ? heroRes.data[0] : heroRes.data;
         setHero(heroData);
@@ -37,7 +36,6 @@ const Skill = () => {
     fetchData();
   }, []);
 
-  // Filter Logic: Matches the enum values in your Mongoose model
   const handleFilter = (cat) => {
     setActiveCategory(cat);
     if (cat === "All") {
@@ -50,10 +48,10 @@ const Skill = () => {
   return (
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', minHeight: '100vh' }}>
       
-      {/* 1. NAVIGATION BAR - 2026 REPOSITORY THEME */}
+      {/* 1. NAVIGATION BAR */}
       <nav style={{ 
         height: "80px", 
-        padding: '20px 50px', 
+        padding: '20px 40px', 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
@@ -64,182 +62,132 @@ const Skill = () => {
         zIndex: 1100, 
         borderBottom: '1px solid #eee' 
       }}>
-        {/* Profile Section */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '180px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '150px' }}>
           {mainHero?.image && (
             <img 
               src={mainHero.image} 
               alt="Profile" 
-              style={{ width: '35px', height: '35px', borderRadius: '50%', objectFit: 'cover', border: '1px solid #eee' }} 
+              style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} 
             />
           )}
-          <div style={{ fontWeight: '800', fontSize: '1.1rem' }}>H.Mekonnen</div>
+          <div style={{ fontWeight: '800', fontSize: '1rem' }}>H.Mekonnen</div>
         </div>
 
-        {/* 2026 REPOSITORY LOGO */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', userSelect: 'none' }}>
-          <div style={{ fontWeight: '900', fontSize: '1.5rem', lineHeight: '1' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ fontWeight: '900', fontSize: '1.4rem', lineHeight: '1' }}>
             <span style={{ color: '#eee' }}>{yearFirstTwo}</span>
             <span style={{ color: '#0070f3' }}>{yearLastTwo}</span>
           </div>
-          <div style={{ fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px', color: '#888' }}>
-            {activeCategory === "All" ? "Programming Languages" : activeCategory}
+          <div style={{ fontSize: '0.55rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', color: '#888' }}>
+            {activeCategory === "All" ? "Full Stack Repository" : activeCategory}
           </div>
         </div>
         
-        {/* UPDATED NAV LINKS: Integrated Enum Categories */}
-        <div style={{ display: 'flex', gap: '25px', fontWeight: '500', minWidth: '180px', justifyContent: 'flex-end', fontSize: '0.85rem' }}>
-          <span onClick={() => handleFilter("Programming Languages")} style={{ cursor: 'pointer', color: activeCategory === "Programming Languages" ? '#0070f3' : '#111' }}>Languages</span>
-          <span onClick={() => handleFilter("Cybersecurity")} style={{ cursor: 'pointer', color: activeCategory === "Cybersecurity" ? '#0070f3' : '#111' }}>Cyber</span>
-          <span onClick={() => handleFilter("Backend")} style={{ cursor: 'pointer', color: activeCategory === "Backend" ? '#0070f3' : '#111' }}>Backend</span>
-          <span onClick={() => handleFilter("Frontend")} style={{ cursor: 'pointer', color: activeCategory === "Frontend" ? '#0070f3' : '#111' }}>Frontend</span>
-          <span onClick={() => handleFilter("AI")} style={{ cursor: 'pointer', color: activeCategory === "AI" ? '#0070f3' : '#111' }}>AI</span>
-          <span onClick={() => handleFilter("All")} style={{ cursor: 'pointer', color: '#888', fontSize: '0.7rem' }}>[RESET]</span>
+        {/* ALL CATEGORIES ADDED HERE */}
+        <div style={{ display: 'flex', gap: '15px', fontWeight: '600', minWidth: '150px', justifyContent: 'flex-end', fontSize: '0.75rem', textTransform: 'uppercase' }}>
+          {["Programming Languages", "Cybersecurity", "Frontend", "Backend", "AI", "DevOps", "Mobile"].map((cat) => (
+            <span 
+              key={cat}
+              onClick={() => handleFilter(cat)} 
+              style={{ 
+                cursor: 'pointer', 
+                color: activeCategory === cat ? '#0070f3' : '#111',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {cat === "Programming Languages" ? "Languages" : cat}
+            </span>
+          ))}
+          <span onClick={() => handleFilter("All")} style={{ cursor: 'pointer', color: '#ccc' }}>[reset]</span>
         </div>
       </nav>
 
-      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px' }}>
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         
-        {/* 2. HERO SECTION - Decreased vertical spacing */}
+        {/* 2. HERO SECTION - TIGHTENED VERTICAL SPACING */}
         <section style={{ 
           display: 'flex', 
           alignItems: 'center', 
-          gap: '60px', 
+          gap: '50px', 
           flexWrap: 'wrap', 
           padding: '30px 0', 
-          minHeight: '55vh' 
+          minHeight: '50vh' 
         }}>
-          <div style={{ flex: 1.5, minWidth: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ flex: 1.5, minWidth: '350px' }}>
             <h1 style={{ 
-              fontSize: '4.2rem', 
-              lineHeight: '0.85', 
+              fontSize: '4.8rem', 
+              lineHeight: '0.8', 
               marginBottom: '15px', 
-              letterSpacing: '-3px',
-              fontWeight: '900'
+              letterSpacing: '-4px',
+              fontWeight: '900',
+              margin: '0 0 10px 0'
             }}>
               {hero?.title || "Technology"} <br/>
               <span style={{ color: '#0070f3' }}>{hero?.subtitle || "Mastery"}</span>
             </h1>
 
             <p style={{ 
-              fontSize: '1.05rem',
-              color: '#111',
-              lineHeight: '1.6',
-              textAlign: 'justify',
-              maxWidth: '550px',
+              fontSize: '1rem',
+              color: '#444',
+              lineHeight: '1.5',
+              maxWidth: '500px',
               fontWeight: '500',
               margin: '0'
             }}>
-              {hero?.description || "Loading specialized tools and architectural foundations for the repository..."}
+              {hero?.description || "Architecting digital solutions across the modern stack."}
             </p>
-
-            {hero?.quote && (
-              <p style={{ marginTop: '12px', fontStyle: 'italic', color: '#888', borderLeft: '4px solid #0070f3', paddingLeft: '20px', fontSize: '0.85rem' }}>
-                "{hero.quote}"
-              </p>
-            )}
           </div>
           
-          <div style={{ flex: 1, minWidth: '350px', display: 'flex', alignItems: 'center' }}>
-            {hero?.image ? (
+          <div style={{ flex: 1, minWidth: '300px' }}>
+            {hero?.image && (
               <img 
                 src={hero.image} 
-                alt="Technical Architecture" 
+                alt="Architecture" 
                 style={{ 
                   width: '100%', 
-                  borderRadius: '24px', 
-                  boxShadow: '15px 15px 0px #f8f8f8', 
-                  objectFit: 'cover',
-                  height: '380px'
+                  borderRadius: '20px', 
+                  boxShadow: '15px 15px 0px #fafafa', 
+                  height: '350px',
+                  objectFit: 'cover'
                 }} 
               />
-            ) : (
-              <div style={{ width: '100%', height: '380px', background: '#f8f8f8', borderRadius: '24px' }}></div>
             )}
           </div>
         </section>
 
-        <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 50px 0' }} />
+        <hr style={{ border: 'none', height: '1px', background: '#f0f0f0', margin: '20px 0 50px 0' }} />
 
         {/* 3. SKILLS GRID */}
-        <section style={{ paddingBottom: '100px' }}>
+        <section style={{ paddingBottom: '80px' }}>
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
             gap: '30px' 
           }}>
             {filteredSkills.map((skill, index) => (
               <div 
                 key={skill._id || index} 
                 style={{ 
-                  padding: '35px', 
+                  padding: '30px', 
                   border: '1px solid #f0f0f0', 
-                  borderRadius: '24px', 
+                  borderRadius: '20px', 
                   backgroundColor: '#fff',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '15px',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
+                  transition: 'transform 0.2s'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <img 
-                    src={skill.image || "https://via.placeholder.com/60"} 
-                    alt={skill.name} 
-                    style={{ width: '50px', height: '50px', objectFit: 'contain' }} 
-                  />
-                  <span style={{ 
-                    fontSize: '0.65rem', 
-                    fontWeight: '900', 
-                    color: '#0070f3', 
-                    textTransform: 'uppercase', 
-                    letterSpacing: '1px',
-                    background: '#f0f7ff',
-                    padding: '4px 12px',
-                    borderRadius: '100px'
-                  }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                  <img src={skill.image} alt="" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                  <span style={{ fontSize: '0.6rem', fontWeight: '900', color: '#0070f3', background: '#f0f7ff', padding: '3px 8px', borderRadius: '4px' }}>
                     {skill.level}
                   </span>
                 </div>
-
-                <div>
-                  <h3 style={{ margin: '0', fontSize: '1.6rem', fontWeight: '800', letterSpacing: '-1px' }}>
-                    {skill.name}
-                  </h3>
-                </div>
-
-                <p style={{ 
-                  fontSize: '0.9rem', 
-                  lineHeight: '1.5', 
-                  color: '#555', 
-                  margin: '0',
-                  minHeight: '70px'
-                }}>
-                  {skill.story || `Specialized implementation and architectural integration of ${skill.name}.`}
+                <h3 style={{ margin: '0 0 10px 0', fontSize: '1.4rem', fontWeight: '800' }}>{skill.name}</h3>
+                <p style={{ fontSize: '0.85rem', color: '#666', lineHeight: '1.4', margin: '0 0 15px 0', minHeight: '50px' }}>
+                  {skill.story}
                 </p>
-
-                <div style={{ 
-                  display: 'flex', 
-                  gap: '15px', 
-                  marginTop: '10px', 
-                  paddingTop: '15px', 
-                  borderTop: '1px solid #f5f5f5' 
-                }}>
+                <div style={{ display: 'flex', gap: '10px', borderTop: '1px solid #f9f9f9', paddingTop: '15px' }}>
                   {['Where', 'When', 'How'].map((label) => (
-                    <a 
-                      key={label}
-                      href={skill[`${label.toLowerCase()}Link`] || "#"} 
-                      style={{ 
-                        fontSize: '0.7rem', 
-                        fontWeight: '800', 
-                        color: '#111', 
-                        textDecoration: 'none', 
-                        borderBottom: '2px solid #eee',
-                        textTransform: 'uppercase'
-                      }}
-                    >
-                      {label}
-                    </a>
+                    <a key={label} href="#" style={{ fontSize: '0.65rem', fontWeight: '700', color: '#111', textDecoration: 'none', borderBottom: '1px solid #ddd' }}>{label}</a>
                   ))}
                 </div>
               </div>
