@@ -1,49 +1,88 @@
-/* Navbar.css */
-.centered-auth-card {
-    position: relative;
-    background-color: #fff;
-    padding: 35px;
-    border-radius: 16px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-    z-index: 1001;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+/* --- Desktop & Base Typography (Default) --- */
+
+.lp-main-title {
+    font-size: 3.5rem; /* Large and bold for desktop */
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin: 0 0 25px 0;
+    color: #0f172a;
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+.lp-description {
+    font-size: 1.15rem;
+    color: #334155;
+    margin-bottom: 30px;
+    line-height: 1.8; /* Increased for better readability */
+    text-align: justify;
+    hyphens: auto;
+    word-break: break-word;
 }
 
-.modal-close-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-    margin-top: -10px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+.lp-award-item {
+    font-size: 1.1rem;
+    color: #1e293b;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 5px 0;
+    text-align: left;
 }
 
-.modal-close-icon {
-    font-size: 25px;
-    color: #333;
+/* --- Laptop / Small Desktop (1024px to 1280px) --- */
+@media (max-width: 1280px) {
+    .lp-main-title {
+        font-size: 3rem;
+    }
 }
 
-.nav-links-logged-in {
-    width: 100%;
-    justify-content: space-around;
+/* --- Tablets (768px to 1024px) --- */
+@media (max-width: 1024px) {
+    .lp-main-title {
+        font-size: 2.5rem;
+        letter-spacing: -1.5px;
+    }
+    
+    .lp-description {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+}
+
+/* --- Large Mobile (480px to 768px) --- */
+@media (max-width: 768px) {
+    .lp-main-title {
+        font-size: 2.2rem;
+        letter-spacing: -1px;
+        text-align: center; /* Center titles on mobile */
+    }
+
+    .lp-description {
+        font-size: 1.05rem;
+        text-align: center; /* Better flow for mobile reading */
+        line-height: 1.6;
+        padding: 0 10px;
+    }
+
+    .lp-award-item {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
+
+/* --- Small Mobile (Up to 480px) --- */
+@media (max-width: 480px) {
+    .lp-main-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .lp-description {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    .lp-award-item {
+        font-size: 0.95rem;
+    }
 }
