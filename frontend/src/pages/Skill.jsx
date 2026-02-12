@@ -3,6 +3,8 @@ import API from "../api/api.jsx";
 
 const Skill = () => {
   const [skills, setSkills] = useState([]);
+  const [filteredSkills, setFilteredSkills] = useState([]); // Logic for filtering
+  const [activeCategory, setActiveCategory] = useState("All");
   const [hero, setHero] = useState(null); 
   const [mainHero, setMainHero] = useState(null);
 
@@ -21,6 +23,7 @@ const Skill = () => {
         ]);
         
         setSkills(skillsRes.data);
+        setFilteredSkills(skillsRes.data); // Initialize filtered list
         
         const heroData = Array.isArray(heroRes.data) ? heroRes.data[0] : heroRes.data;
         setHero(heroData);
@@ -33,6 +36,16 @@ const Skill = () => {
     };
     fetchData();
   }, []);
+
+  // Filter Logic: Corrects the "Not Found" issue by filtering state instead of changing URLs
+  const handleFilter = (cat) => {
+    setActiveCategory(cat);
+    if (cat === "All") {
+      setFilteredSkills(skills);
+    } else {
+      setFilteredSkills(skills.filter(s => s.category === cat));
+    }
+  };
 
   return (
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', minHeight: '100vh' }}>
@@ -70,16 +83,17 @@ const Skill = () => {
             <span style={{ color: '#0070f3' }}>{yearLastTwo}</span>
           </div>
           <div style={{ fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px', color: '#888' }}>
-            Programing Languages
+            {activeCategory === "All" ? "Programming Languages" : activeCategory}
           </div>
         </div>
         
-        {/* Nav Links */}
+        {/* CORRECTED NAV LINKS: Switched <a> to <button/span> logic to prevent "Not Found" */}
         <div style={{ display: 'flex', gap: '30px', fontWeight: '500', minWidth: '180px', justifyContent: 'flex-end', fontSize: '0.9rem' }}>
-          <a href="/projects" style={{ textDecoration: 'none', color: '#111' }}>Cybersecurity</a>
-          <a href="/" style={{ textDecoration: 'none', color: '#111' }}>Frontend</a>
-          <a href="/projects" style={{ textDecoration: 'none', color: '#111' }}>Backend</a>
-          <a href="/footer" style={{ textDecoration: 'none', color: '#0070f3' }}>AI</a>
+          <span onClick={() => handleFilter("Cybersecurity")} style={{ cursor: 'pointer', color: activeCategory === "Cybersecurity" ? '#0070f3' : '#111' }}>Cybersecurity</span>
+          <span onClick={() => handleFilter("Frontend")} style={{ cursor: 'pointer', color: activeCategory === "Frontend" ? '#0070f3' : '#111' }}>Frontend</span>
+          <span onClick={() => handleFilter("Backend")} style={{ cursor: 'pointer', color: activeCategory === "Backend" ? '#0070f3' : '#111' }}>Backend</span>
+          <span onClick={() => handleFilter("AI")} style={{ cursor: 'pointer', color: activeCategory === "AI" ? '#0070f3' : '#0070f3' }}>AI</span>
+          <span onClick={() => handleFilter("All")} style={{ cursor: 'pointer', color: '#888', fontSize: '0.7rem' }}>[RESET]</span>
         </div>
       </nav>
 
@@ -102,7 +116,8 @@ const Skill = () => {
               letterSpacing: '-3px',
               fontWeight: '900'
             }}>
-              {hero?.title || "Technology"} <br/>
+              {hero?.title || "Technology"} <br/><br/>
+
               <span style={{ color: '#0070f3' }}>{hero?.subtitle || "Mastery"}</span>
             </h1>
 
@@ -145,14 +160,14 @@ const Skill = () => {
 
         <hr style={{ border: 'none', height: '1px', background: '#eee', margin: '0 0 80px 0' }} />
 
-        {/* 3. SKILLS GRID */}
+        {/* 3. SKILLS GRID (Now mapping filteredSkills) */}
         <section style={{ paddingBottom: '120px' }}>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
             gap: '40px' 
           }}>
-            {skills.map((skill, index) => (
+            {filteredSkills.map((skill, index) => (
               <div 
                 key={skill._id || index} 
                 style={{ 
