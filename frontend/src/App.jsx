@@ -10,6 +10,8 @@ import About from "./pages/About";
 import Skill from "./pages/Skill";
 import Testimonials from "./pages/Testimonials"; 
 import LandingPage from "./pages/LandingPage";
+/* ADDED CV IMPORT */
+import CV from "./pages/CV/CV";
 
 /* ADMIN */
 import AdminNavbar from "./components/AdminNavbar";
@@ -71,6 +73,9 @@ function App() {
         <Route path="/contact" element={loggedIn ? <Contact /> : <Navigate to="/" />} />
         <Route path="/skill" element={loggedIn ? <Skill /> : <Navigate to="/" />} />
         <Route path="/testimonials" element={loggedIn ? <Testimonials /> : <Navigate to="/" />} />
+        
+        {/* ADDED CV ROUTE */}
+        <Route path="/cv" element={loggedIn ? <CV /> : <Navigate to="/" />} />
 
         {/* --- ADMIN PANEL ROUTES --- */}
         <Route 
@@ -102,7 +107,6 @@ function App() {
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
 
-      {/* FIXED: Removed the typo 'hid yes e' */}
       {!hideFooter && <Footer />}
     </>
   );
