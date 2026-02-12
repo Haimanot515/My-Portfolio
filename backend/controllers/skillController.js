@@ -12,14 +12,21 @@ exports.getSkills = async (req, res) => {
 
 exports.createSkill = async (req, res) => {
   try {
-    const { name, level } = req.body;
+    // Added category to req.body extraction
+    const { name, level, category } = req.body;
 
     // Basic validation
     if (!name || !level) {
       return res.status(400).json({ msg: "Name and level are required" });
     }
 
-    const skill = await Skill.create({ name, level });
+    // Added category to the creation object
+    const skill = await Skill.create({ 
+      name, 
+      level, 
+      category 
+    });
+    
     res.status(201).json({ msg: "Skill created successfully", skill });
   } catch (err) {
     console.error(err);
