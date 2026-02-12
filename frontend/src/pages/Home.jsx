@@ -134,7 +134,19 @@ const Home = () => {
             </div>
 
             <div style={{ display: 'flex', gap: '15px', paddingTop: '20px', flexWrap: 'wrap' }}>
-              <a href="/projects" style={{ padding: '16px 28px', background: '#111', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>Explore Projects</a>
+              <Link 
+  to="/projects" 
+  style={{ 
+    padding: '16px 28px', 
+    background: '#111', 
+    color: '#fff', 
+    borderRadius: '8px', 
+    textDecoration: 'none', 
+    fontWeight: 'bold' 
+  }}
+>
+  Explore Projects
+</Link>
               <button style={{ padding: '16px 28px', background: 'transparent', border: '1px solid #111', borderRadius: '8px', fontWeight: 'bold' }}>Get CV</button>
             </div>
           </div>
