@@ -11,7 +11,7 @@ import Skill from "./pages/Skill";
 import Testimonials from "./pages/Testimonials"; 
 import LandingPage from "./pages/LandingPage";
 /* ADDED CV IMPORT */
-import CV from "./pages/CV/CV";
+import CV from "./pages/Cv";
 
 /* ADMIN */
 import AdminNavbar from "./components/AdminNavbar";
