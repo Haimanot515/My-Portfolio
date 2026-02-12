@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import API from "../../api/api.jsx";
+import "./Form.css"; // Added the CSS import
 
-// Added switchToVerify prop here
 const Form = ({ setLoggedIn, setIsAdmin, closeModal, switchToLogin, switchToVerify }) => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [success, setSuccess] = useState("");
@@ -18,14 +18,9 @@ const Form = ({ setLoggedIn, setIsAdmin, closeModal, switchToLogin, switchToVeri
 
     try {
       await API.post("/auth/register", form);
-
-      // ✅ Store pending user correctly
       localStorage.setItem("pendingUser", JSON.stringify(form));
-
       setSuccess("Verification code sent! Switching...");
       
-      // ✅ Instead of navigate (which kills the landing page), 
-      // we switch the modal content to the Verify component.
       setTimeout(() => {
         if (switchToVerify) {
           switchToVerify();
@@ -39,8 +34,8 @@ const Form = ({ setLoggedIn, setIsAdmin, closeModal, switchToLogin, switchToVeri
 
   return (
     <>
-      <h1 style={{ color: "#111", marginBottom: "20px" }}>Register</h1>
-      <form className="register-form" onSubmit={handleSubmit} style={{ margin: 0, padding: 0 }}>
+      <h1 className="form-title">Register</h1>
+      <form className="register-form form-register-container" onSubmit={handleSubmit}>
         <input
           name="name"
           value={form.name}
@@ -66,24 +61,15 @@ const Form = ({ setLoggedIn, setIsAdmin, closeModal, switchToLogin, switchToVeri
         <button type="submit">Register</button>
       </form>
 
-      {success && <p className="success" style={{ color: "green", marginTop: "10px" }}>{success}</p>}
-      {error && <p className="error" style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+      {success && <p className="success form-success-msg">{success}</p>}
+      {error && <p className="error form-error-msg">{error}</p>}
 
-      <div style={{ marginTop: "20px", fontSize: "14px", color: "#666" }}>
+      <div className="form-footer">
         Already have an account?{" "}
         <button 
           type="button" 
           onClick={switchToLogin} 
-          style={{ 
-            background: "none", 
-            border: "none", 
-            color: "#0077ff", 
-            textDecoration: "underline", 
-            cursor: "pointer",
-            fontWeight: "bold",
-            padding: 0,
-            fontSize: "14px"
-          }}
+          className="form-link-btn"
         >
           Login here
         </button>
