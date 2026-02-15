@@ -3,15 +3,16 @@ import Login from "../pages/Login";
 import Form from "../pages/Registration/Form";
 import Verify from "../pages/Registration/Verify"; 
 import { Link, useNavigate } from "react-router-dom";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaBars } from "react-icons/fa";
+import "./Navbar.css"; 
 
 const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
   const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Sync: When user becomes logged in, close all modals
   useEffect(() => {
     if (loggedIn) {
       closeModals();
@@ -23,6 +24,7 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
     setLoggedIn(false);
     setIsAdmin(false);
     closeModals();
+    setIsMenuOpen(false);
     navigate("/"); 
   };
 
@@ -32,6 +34,7 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
       e.stopPropagation(); 
       openLogin();
     }
+    setIsMenuOpen(false);
   };
 
   const closeModals = () => {
@@ -40,140 +43,54 @@ const Navbar = ({ loggedIn, isAdmin, setLoggedIn, setIsAdmin }) => {
     setShowVerify(false);
   };
 
-  const openRegister = () => {
-    closeModals();
-    setShowRegister(true);
-  };
-
-  const openLogin = () => {
-    closeModals();
-    setShowLogin(true);
-  };
-
-  const openVerify = () => {
-    closeModals();
-    setShowVerify(true);
-  };
-
-  const centeredCardStyle = {
-    position: "relative", 
-    backgroundColor: "#fff", 
-    padding: "35px",
-    borderRadius: "16px",
-    width: "400px",
-    maxWidth: "90%",
-    boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
-    zIndex: 1001,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center"
-  };
-
-  const overlayStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
-    display: "flex",
-    justifyContent: "center", 
-    alignItems: "center",     
-    zIndex: 1000
-  };
-
-  // Specifically styling the button to be centered just below the top edge
-  const closeBtnStyle = {
-    border: 'none', 
-    background: 'none', 
-    cursor: 'pointer', 
-    marginBottom: '20px',
-    marginTop: '-10px', // Pulls it slightly closer to the top edge inside
-    display: 'flex',
-    justifyContent: 'center',
-    width: '100%'
-  };
+  const openRegister = () => { closeModals(); setShowRegister(true); };
+  const openLogin = () => { closeModals(); setShowLogin(true); };
+  const openVerify = () => { closeModals(); setShowVerify(true); };
 
   return (
     <>
       <nav className="navbar">
-        {!loggedIn ? (
-          <>
-            <div className="nav-links">
-              <Link to="/home" onClick={handleNavClick}>Home</Link>
-              <Link to="/projects" onClick={handleNavClick}>Projects</Link>
-              <Link to="/skill" onClick={handleNavClick}>Skills</Link>
-              <Link to="/contact" onClick={handleNavClick}>Contact</Link>
-              <Link to="/about" onClick={handleNavClick}>About</Link>
-              <Link to="/testimonials" onClick={handleNavClick}>Testimony</Link>
-            </div>
-            <div className="nav-auth">
+        {/* Hamburger for Mobile */}
+        <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        {/* ALL links and buttons are now direct children of nav-content */}
+        <div className={`nav-content ${isMenuOpen ? "active" : ""}`}>
+          <Link to="/home" onClick={handleNavClick}>Home</Link>
+          <Link to="/projects" onClick={handleNavClick}>Projects</Link>
+          <Link to="/skill" onClick={handleNavClick}>Skills</Link>
+          <Link to="/contact" onClick={handleNavClick}>Contact</Link>
+          <Link to="/about" onClick={handleNavClick}>About</Link>
+          <Link to="/testimonials" onClick={handleNavClick}>Testimony</Link>
+          
+          {/* Admin and Auth items are rendered as direct siblings */}
+          {loggedIn ? (
+            <>
+              {(isAdmin === true || isAdmin === "true") && (
+                <Link to="/admin/users/view" onClick={() => setIsMenuOpen(false)}>Admin</Link>
+              )}
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <>
               <button onClick={openLogin}>Login</button>
               <button onClick={openRegister}>Register</button>
-            </div>
-          </>
-        ) : (
-          <div className="nav-links" style={{ width: "100%", justifyContent: "space-around" }}>
-            <Link to="/home">Home</Link>
-            <Link to="/projects">Projects</Link>
-            <Link to="/skill">Skills</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/about">About</Link>
-            <Link to="/testimonials">Testimony</Link>
-            {(isAdmin === true || isAdmin === "true") && (
-              <Link to="/admin/users/view">Admin</Link>
-            )}
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        )}
+            </>
+          )}
+        </div>
       </nav>
 
-      {/* LOGIN MODAL */}
-      {showLogin && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
+      {/* MODALS */}
+      {(showLogin || showRegister || showVerify) && (
+        <div className="overlay" onClick={closeModals}>
+          <div className="auth-card" onClick={(e) => e.stopPropagation()}>
+            <button onClick={closeModals} className="close-btn-style">
+              <FaTimes />
             </button>
-            <Login 
-                setLoggedIn={setLoggedIn} 
-                setIsAdmin={setIsAdmin} 
-                closeModal={closeModals} 
-                switchToRegister={openRegister} 
-            />
-          </div>
-        </div>
-      )}
-
-      {/* REGISTER MODAL */}
-      {showRegister && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
-            </button>
-            <Form 
-                closeModal={closeModals} 
-                switchToLogin={openLogin} 
-                switchToVerify={openVerify} 
-            />
-          </div>
-        </div>
-      )}
-
-      {/* VERIFY MODAL */}
-      {showVerify && (
-        <div className="overlay" style={overlayStyle} onClick={closeModals}>
-          <div className="auth-card" style={centeredCardStyle} onClick={(e) => e.stopPropagation()}>
-            <button onClick={closeModals} style={closeBtnStyle}>
-              <FaTimes style={{ fontSize: "25px", color: "#333" }} />
-            </button>
-            <Verify 
-              setLoggedIn={setLoggedIn} 
-              setIsAdmin={setIsAdmin} 
-              closeModal={closeModals} 
-            />
+            {showLogin && <Login setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin} closeModal={closeModals} switchToRegister={openRegister} />}
+            {showRegister && <Form closeModal={closeModals} switchToLogin={openLogin} switchToVerify={openVerify} />}
+            {showVerify && <Verify setLoggedIn={setLoggedIn} setIsAdmin={setIsAdmin} closeModal={closeModals} />}
           </div>
         </div>
       )}

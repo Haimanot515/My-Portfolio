@@ -24,7 +24,6 @@ exports.createHero = async (req, res) => {
     const { title, subtitle, description, name, role, quote, story } = req.body;
 
     // 1. DROP logic: Clear existing records before creating a new one
-    // This strictly follows the instruction to DROP old data on new creation
     await HomeHero.deleteMany({});
 
     let imageUrl = "";
@@ -67,19 +66,18 @@ exports.createHero = async (req, res) => {
 // @route   PUT /api/home-hero
 exports.updateHero = async (req, res) => {
   try {
-    // 1. Create a clean update object
     const updateData = {};
 
-    // 2. Map body fields strictly to avoid overwriting with empty strings
-    // This ensures if a field is empty in the frontend, it doesn't break the DB entry
+    // 1. Map body fields
+    // We removed the strict 'empty string' check that was blocking your description
     const fields = ["title", "subtitle", "description", "name", "role", "quote", "story"];
     fields.forEach((field) => {
-      if (req.body[field] !== undefined && req.body[field] !== "" && req.body[field] !== "null") {
+      if (req.body[field] !== undefined && req.body[field] !== "null") {
         updateData[field] = req.body[field];
       }
     });
 
-    // 3. Image Logic: Check if a NEW file is uploaded
+    // 2. Image Logic: Check if a NEW file is uploaded
     if (req.file) {
       const result = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
@@ -92,20 +90,18 @@ exports.updateHero = async (req, res) => {
         uploadStream.end(req.file.buffer);
       });
       updateData.image = result.secure_url;
-    } else {
-      // If no new file, we DELETE the image key from our update object.
-      // This is the safety net that prevents the existing photo from being replaced by null.
-      delete updateData.image;
     }
 
-    // 4. Update the single document using $set
+    // 3. Update the single document using $set
+    // This ensures only the fields provided are changed
     const hero = await HomeHero.findOneAndUpdate(
       {}, 
       { $set: updateData }, 
       {
         new: true,
         upsert: true,
-        runValidators: true
+        runValidators: true,
+        setDefaultsOnInsert: true
       }
     );
 
