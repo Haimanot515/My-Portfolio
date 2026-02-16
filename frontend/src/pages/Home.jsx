@@ -59,7 +59,8 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'hidden' }}>
+    /* Changed overflowX to 'clip' to fix the sticky navbar issue */
+    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'clip' }}>
       
       {/* 1. NAVIGATION BAR */}
       <nav style={{ 
@@ -73,7 +74,7 @@ const Home = () => {
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
         backdropFilter: 'blur(10px)', 
-        zIndex: 100, 
+        zIndex: 1000, // Increased zIndex for better stickiness
         borderBottom: '1px solid #eee',
         gap: isMobile ? '15px' : '0'
       }}>
@@ -138,7 +139,6 @@ const Home = () => {
                 )}
               </h1>
             
-              
               <div style={{ maxWidth: isMobile ? '100%' : '500px', margin: isMobile ? '0 auto' : '0' }}>
                 <p style={{ ...paragraphStyle, marginBottom: '20px', fontSize: isMobile ? '1.1rem' : '1.2rem', color: '#111' }}>
                   {hero?.description || "Loading specialized infrastructure..."}
@@ -161,25 +161,19 @@ const Home = () => {
                     style={{ width: '100%', borderRadius: '24px', boxShadow: isMobile ? '10px 10px 0px #f8f8f8' : '20px 20px 0px #f8f8f8', objectFit: 'cover' }} 
                   />
                   <div style={{ marginTop: '20px', fontFamily: 'sans-serif' }}>
-  {/* Primary Name Header */}
-  <h3 style={{ margin: '0', fontSize: '1.5rem', fontWeight: '800' }}>
-    Haimanot Beka Mekonnen
-  </h3>
-
-  {/* Description Block with Identical Styling */}
-  <p style={{ margin: '5px 0 0', color: '#0070f3', fontSize: '18px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
-    Full Stack Developer
-  </p>
- 
-  
-  
-</div>
+                    <h3 style={{ margin: '0', fontSize: '1.5rem', fontWeight: '800' }}>
+                      Haimanot Beka Mekonnen
+                    </h3>
+                    <p style={{ margin: '5px 0 0', color: '#0070f3', fontSize: '18px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                      Full Stack Developer
+                    </p>
+                  </div>
                </>
              )}
           </div>
         </section>
 
-        {/* 3. ABOUT SECTION - "The Story" now above the layout */}
+        {/* 3. ABOUT SECTION */}
         <section id="about" style={{ padding: isMobile ? '60px 0' : '80px 0', borderTop: '1px solid #eee' }}>
           <h2 style={{ textAlign: isMobile ? "center" : "left", fontSize: isMobile ? '2.5rem' : '3rem', marginBottom: '60px' }}>The Story</h2>
           
@@ -201,6 +195,7 @@ const Home = () => {
           </div>
         </section>
 
+        {/* 4. WORK SECTION */}
         <section id="work" style={{ padding: isMobile ? '60px 0' : '80px 0', borderTop: '1px solid #eee' }}>
           <h2 style={{ fontSize: isMobile ? '2.2rem' : '3rem', marginBottom: isMobile ? '40px' : '60px', textAlign: 'center' }}>Featured Projects</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '60px' : '80px' }}>
@@ -233,6 +228,7 @@ const Home = () => {
           </div>
         </section>
 
+        {/* 5. SKILLS SECTION */}
         <section id="skills" style={{ padding: isMobile ? '60px 0' : '80px 0', borderTop: '1px solid #eee' }}>
           <h2 style={{ fontSize: isMobile ? '2.2rem' : '3rem', marginBottom: '40px', textAlign: 'center' }}>Technical Mastery</h2>
           <div style={{ 
