@@ -70,6 +70,7 @@ const Home = () => {
         justifyContent: 'space-between', 
         alignItems: 'center',
       WebkitSticky: 'sticky',
+      position: -webkit-sticky,
         position: 'sticky', 
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
