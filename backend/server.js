@@ -19,7 +19,7 @@ const homeHeroRoutes = require("./routes/homeHero");
 const skillHeroRoutes = require("./routes/skillHero");
 const projectHeroRoutes = require("./routes/projectHero");
 
-// --- 🆕 Independent Landing Route ---
+// --- Independent Landing Route ---
 const landingRoutes = require("./routes/landingHero");
 
 const app = express();
@@ -45,7 +45,7 @@ app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --------------------
-// Database + Server
+// Database + Server Startup
 // --------------------
 const startServer = async () => {
   try {
@@ -53,27 +53,28 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected");
 
-    // 2. DROP stale indexes for LandingHero to fix the Mongoose _id warning
-    // This satisfies your constraint to keep schemas/indexes in sync via dropping.
+    // 2. DROP stale indexes for 'landingheros'
+    // This maintains your preference for using 'DROP' in schemas and configurations.
     try {
-        const collections = await mongoose.connection.db.listCollections().toArray();
-        const exists = collections.some(col => col.name === 'landingheros');
-        if (exists) {
-            await mongoose.connection.db.collection('landingheros').dropIndexes();
-            console.log("✅ LandingHero indexes DROPPED to ensure fresh schema sync");
-        }
+      const collections = await mongoose.connection.db.listCollections().toArray();
+      const exists = collections.some(col => col.name === 'landingheros');
+      
+      if (exists) {
+        await mongoose.connection.db.collection('landingheros').dropIndexes();
+        console.log("✅ landingheros indexes DROPPED to ensure fresh schema sync");
+      }
     } catch (indexError) {
-        console.log("ℹ️ No legacy indexes found to drop.");
+      console.log("ℹ️ No legacy indexes found to drop.");
     }
 
     // -----------------------------------------------------------
     // API Endpoints (Unified under /api)
     // -----------------------------------------------------------
     
-    // MOVED: These now match your frontend API.get("/landing") and API.post("/auth/register")
-    // Because your baseURL in api.jsx is "http://.../api"
     app.use("/api/auth", authRoutes); 
-    app.use("/api/landing", landingRoutes); 
+    
+    // 🆕 PLURALIZED: Matches 'landingheros' collection
+    app.use("/api/landingheros", landingRoutes); 
 
     // Regular Data Routes
     app.use("/api/projects", projectsRouter);
@@ -82,7 +83,10 @@ const startServer = async () => {
     app.use("/api/about", aboutRoutes);
     app.use("/api/admin", adminRoutes);
     app.use("/api/testimonials", testimonialRoutes);
-    app.use("/api/hero", homeHeroRoutes);      
+
+    // 🆕 PLURALIZED: Matches 'homeheros' collection
+    app.use("/api/homeheros", homeHeroRoutes);      
+    
     app.use("/api/skill-hero", skillHeroRoutes);  
     app.use("/api/project-hero", projectHeroRoutes); 
 
@@ -99,7 +103,7 @@ const startServer = async () => {
     // 404 handler for any non-existent route
     app.use((req, res) => {
       res.status(404).json({ 
-        message: `Route ${req.originalUrl} not found. Check if /api prefix is missing.` 
+        message: `Route ${req.originalUrl} not found. Check if /api prefix or plural 's' is missing.` 
       });
     });
 
@@ -110,10 +114,9 @@ const startServer = async () => {
     });
 
     // --------------------
-    // THE RENDER FIX:
+    // PORT BINDING (Render Requirement)
     // --------------------
     const PORT = process.env.PORT || 5000;
-    // Binding to '0.0.0.0' allows Render to correctly detect the port
     app.listen(PORT, '0.0.0.0', () =>
       console.log(`🚀 Server running on port ${PORT}`)
     );

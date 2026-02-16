@@ -54,7 +54,8 @@ const AdminLanding = () => {
 
     const fetchLandingData = async () => {
       try {
-        const res = await API.get("/landing");
+        // Updated to plural /landingheros to match server.js
+        const res = await API.get("/landingheros");
         const data = Array.isArray(res.data) ? res.data[0] : res.data;
         if (data) {
           const fetchedLanding = {
@@ -125,7 +126,8 @@ const AdminLanding = () => {
 
   const saveSection = async (endpoint, formData) => {
     const token = localStorage.getItem("token");
-    return API.put(`/landing${endpoint}`, formData, {
+    // Updated to plural /landingheros to match server.js
+    return API.put(`/landingheros${endpoint}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",

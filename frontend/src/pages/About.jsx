@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import API from "../api/api";
+import "./About.css";
 
 const About = () => {
-  const [aboutList, setAboutList] = useState([]); 
+  const [aboutList, setAboutList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,99 +22,50 @@ const About = () => {
   }, []);
 
   if (loading) return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
-      <div style={{ color: "#2563eb", fontWeight: "600", letterSpacing: "1px" }}>LOADING...</div>
+    <div className="about-loading">
+      <div className="loading-spinner">LOADING...</div>
     </div>
   );
 
   return (
-    <section style={{ 
-      width: "100%",
-      background: "#ffffff",
-      padding: "60px 0", 
-      fontFamily: "'Inter', sans-serif"
-    }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 20px" }}>
+    <section className="about-section">
+      <div className="about-container">
         {aboutList.map((item) => (
-          <div key={item._id} style={{ 
-            display: "flex", 
-            flexWrap: "wrap", 
-            alignItems: "flex-start", // Changed to flex-start for a taller look
-            justifyContent: "center",
-            gap: "50px",
-            marginBottom: "60px" 
-          }}>
+          <div key={item._id} className="about-item">
             
             {/* TALLER PHOTO SIDE */}
-            <div style={{ flex: "0 1 380px", position: "relative" }}> 
+            <div className="about-photo-side"> 
               {item.image && (
-                <div style={{ position: "relative", zIndex: 2 }}>
+                <div className="about-img-wrapper">
                   <img
                     src={item.image}
                     alt={item.title}
-                    style={{ 
-                      width: "100%", 
-                      height: "450px", // Increased height for impact
-                      borderRadius: "20px",
-                      objectFit: "cover", 
-                      objectPosition: "center",
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                      display: "block",
-                      border: "4px solid #fff"
-                    }}
+                    className="about-image"
                   />
                 </div>
               )}
               {/* Artistic accent background */}
-              <div style={{ 
-                position: "absolute", 
-                top: "20px", 
-                left: "20px", 
-                width: "100%", 
-                height: "100%", 
-                background: "#f1f5f9", 
-                borderRadius: "20px", 
-                zIndex: 1,
-                border: "1px solid #e2e8f0" 
-              }}></div>
+              <div className="about-art-accent"></div>
             </div>
 
             {/* TEXT SIDE */}
-            <div style={{ flex: "1.2 1 450px", paddingTop: "10px" }}>
-              <span style={{ 
-                color: "#2563eb", 
-                fontWeight: "700", 
-                textTransform: "uppercase", 
-                letterSpacing: "2px",
-                fontSize: "0.9rem" 
-              }}>
-                Software as a carear full stack developer addis abab university
+            <div className="about-text-side">
+              <span className="about-label">
+                Software as a career full stack developer addis ababa university
               </span>
               
-              <h2 style={{ 
-                fontSize: "2.8rem", 
-                color: "#0f172a", 
-                margin: "15px 0", 
-                fontWeight: "800",
-                lineHeight: "1.1"
-              }}>
+              <h2 className="about-title">
                 {item.title}
               </h2>
 
-              <div style={{ 
-                fontSize: "1.1rem", 
-                lineHeight: "1.8", 
-                color: "#475569", 
-                textAlign: "justify",
-                marginBottom: "30px"
-              }}>
-                <p style={{ whiteSpace: "pre-line" }}>{item.description}</p>
+              <div className="about-description">
+                <p>{item.description}</p>
               </div>
 
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                <div style={tagStyle}>AAIT Scholar</div>
-                <div style={tagStyle}>Software Engineering</div>
-                <div style={tagStyle}>MERN Stack</div>
+              <div className="about-tags">
+                <div className="about-tag">AAIT Scholar</div>
+                <div className="about-tag">Software Engineering</div>
+                <div className="about-tag">MERN Stack</div>
               </div>
             </div>
 
@@ -122,16 +74,6 @@ const About = () => {
       </div>
     </section>
   );
-};
-
-const tagStyle = {
-  background: "#f8fafc",
-  border: "1px solid #e2e8f0",
-  padding: "8px 16px",
-  borderRadius: "8px",
-  fontSize: "0.85rem",
-  color: "#475569",
-  fontWeight: "600"
 };
 
 export default About;

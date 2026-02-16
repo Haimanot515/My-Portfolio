@@ -12,7 +12,7 @@ apiKey.apiKey = process.env.BREVO_API_KEY;
 
 /**
  * Send email using Brevo API (HTTP)
- * Replacing the old Nodemailer transporter
+ * Standardized for Portfolio Verification
  */
 async function sendEmail(to, subject, html) {
   const sendSmtpEmail = new Brevo.SendSmtpEmail();
@@ -20,22 +20,35 @@ async function sendEmail(to, subject, html) {
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = html;
   
-  // Must match the Verified Sender in your Brevo Dashboard
+  /**
+   * FIX: Clean the sender email.
+   * Brevo 400 errors occur if EMAIL_FROM contains "Name <email@mail.com>".
+   * This logic extracts just the "email@mail.com" part.
+   */
+  const rawEmail = process.env.EMAIL_FROM || "haimanotbeka@gmail.com";
+  const cleanEmail = rawEmail.includes('<') 
+    ? rawEmail.split('<')[1].split('>')[0].trim() 
+    : rawEmail.trim();
+
   sendSmtpEmail.sender = { 
     "name": "Fasika Admin", 
-    "email": process.env.EMAIL_FROM 
+    "email": cleanEmail 
   };
   
   sendSmtpEmail.to = [{ "email": to }];
 
   try {
-    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    // Note: Brevo SDK returns the response in data.body or just data depending on version
-    console.log(`✅ Email sent to ${to}. ID: ${data.body?.messageId || 'Success'}`);
-    return data;
+    // API Call
+    const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    
+    // Log success (handling different SDK return structures)
+    const messageId = response.body?.messageId || response.messageId || 'Success';
+    console.log(`✅ Email sent to ${to}. ID: ${messageId}`);
+    
+    return response;
   } catch (err) {
-    // Detailed error logging to fix the 500 error
-    console.error('🔥 Brevo API Error:', err.response ? err.response.body : err.message);
+    // Enhanced error logging to capture the exact reason from Brevo's response body
+    console.error('🔥 Brevo API Error Detail:', err.response ? JSON.stringify(err.response.body, null, 2) : err.message);
     throw err;
   }
 }

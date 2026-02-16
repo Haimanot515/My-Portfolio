@@ -10,7 +10,6 @@ import About from "./pages/About";
 import Skill from "./pages/Skill";
 import Testimonials from "./pages/Testimonials"; 
 import LandingPage from "./pages/LandingPage";
-/* ADDED CV IMPORT */
 import CV from "./pages/Cv";
 
 /* ADMIN */
@@ -21,6 +20,8 @@ import AdminMessages from "./pages/admin/AdminContacts/AdminMessage";
 import AdminAbout from "./pages/admin/AdminAbout";
 import AdminSkills from "./pages/admin/AdminSkills"; 
 import AdminLanding from "./pages/admin/AdminLanding"; 
+/* 🆕 IMPORT THE CORRECT HERO COMPONENT */
+import AdminHomeHero from "./pages/admin/AdminHomeHero"; 
 
 import "./styles.css";
 
@@ -29,7 +30,6 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { pathname } = useLocation();
-  // Logic to hide the footer on admin routes
   const hideFooter = pathname.startsWith("/admin");
 
   useEffect(() => {
@@ -73,8 +73,6 @@ function App() {
         <Route path="/contact" element={loggedIn ? <Contact /> : <Navigate to="/" />} />
         <Route path="/skill" element={loggedIn ? <Skill /> : <Navigate to="/" />} />
         <Route path="/testimonials" element={loggedIn ? <Testimonials /> : <Navigate to="/" />} />
-        
-        {/* ADDED CV ROUTE */}
         <Route path="/cv" element={loggedIn ? <CV /> : <Navigate to="/" />} />
 
         {/* --- ADMIN PANEL ROUTES --- */}
@@ -100,14 +98,16 @@ function App() {
           <Route path="contacts/view" element={<AdminMessages />} />
           <Route path="about/create" element={<AdminAbout />} />
           
-          <Route path="hero/create" element={<AdminLanding />} /> 
-          <Route path="hero/update" element={<AdminLanding />} /> 
+          {/* 🆕 ADJUSTED HOME HERO ROUTES */}
+          {/* These now use AdminHomeHero to ensure POST/DROP logic works correctly */}
+          <Route path="hero/create" element={<AdminHomeHero />} /> 
+          <Route path="hero/update" element={<AdminHomeHero />} /> 
         </Route>
 
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
 
-      {!hideFooter && <Footer />}
+      {!hideFooter  && <Footer />}
     </>
   );
 }

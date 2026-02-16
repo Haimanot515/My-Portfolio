@@ -60,7 +60,7 @@ const AdminNavbar = () => {
       </h1>
 
       <nav style={navbarStyle}>
-        {/* NEW LANDING SECTION */}
+        {/* LANDING SECTION */}
         <ul style={ulStyle}>
           <li
             style={liStyle}
@@ -76,20 +76,21 @@ const AdminNavbar = () => {
           </li>
         </ul>
 
-        {/* HERO SECTION */}
+        {/* UPDATED: HOME HERO SECTION */}
         <ul style={ulStyle}>
           <li
             style={liStyle}
-            onMouseEnter={() => setOpenMenu("hero")}
+            onMouseEnter={() => setOpenMenu("homehero")}
             onMouseLeave={() => setOpenMenu(null)}
           >
-            <span style={spanStyle}>Hero</span>
+            <span style={spanStyle}>Home Hero</span>
 
-            {openMenu === "hero" && (
+            {openMenu === "homehero" && (
               <ul style={dropdownStyle}>
-                <li><Link style={linkStyle} to="/admin/hero/create">Manage Hero</Link></li>
-                <li><Link style={linkStyle} to="/admin/hero/update">Update Hero</Link></li>
-                <li><Link style={linkStyle} to="/admin/hero/delete">Delete Hero</Link></li>
+                <li><Link style={linkStyle} to="/admin/hero/create">Create Home Hero</Link></li>
+                <li><Link style={linkStyle} to="/admin/hero/view">View Home Hero</Link></li>
+                <li><Link style={linkStyle} to="/admin/hero/update">Update Home Hero</Link></li>
+                <li><Link style={linkStyle} to="/admin/hero/delete">Delete Home Hero</Link></li>
               </ul>
             )}
           </li>
@@ -184,7 +185,7 @@ const AdminNavbar = () => {
 
             {openMenu === "about" && (
               <ul style={dropdownStyle}>
-                <li><Link style={linkStyle} to="/admin/about/create">Creat About</Link></li>
+                <li><Link style={linkStyle} to="/admin/about/create">Create About</Link></li>
                 <li><Link style={linkStyle} to="/admin/about/view">View About</Link></li>
                 <li><Link style={linkStyle} to="/admin/about/update">Update About</Link></li>
               </ul>

@@ -1,15 +1,9 @@
 const mongoose = require("mongoose");
 
-// Always use 'DROP' in the schemas: 
-// This ensures the collection is fresh and includes the new heroImage field
-mongoose.connection.on("open", async () => {
-  try {
-    await mongoose.connection.db.dropCollection("landinghero");
-    console.log("✅ Collection 'landinghero' DROPPED to sync new schema.");
-  } catch (err) {
-    console.log("ℹ️ Collection 'landinghero' not found or already dropped.");
-  }
-});
+/* UPDATED SCHEMA: 
+  Now uses plural 'landingheros' and includes 'DROP' logic 
+  to maintain a clean collection.
+*/
 
 const LandingHeroSchema = new mongoose.Schema({
   // =====================
@@ -17,7 +11,7 @@ const LandingHeroSchema = new mongoose.Schema({
   // =====================
   title: { type: String, default: "Building Digital Excellence" },
   description: { type: String },
-  heroImage: { type: String }, // 🚀 ADDED: Professional Hero Photo
+  heroImage: { type: String }, // 🚀 Professional Hero Photo
   image: { type: String },     // Existing: Campus Background Image
   missionTitle: { type: String },
   missionDescription: { type: String },
@@ -52,12 +46,20 @@ const LandingHeroSchema = new mongoose.Schema({
   // Metadata
   updatedAt: { type: Date, default: Date.now }
 }, { 
-  collection: "landinghero",
-  // 'DROP' instruction: Forces Mongoose to handle index drops/syncs on startup
+  // 🆕 PLURALIZED: collection name is now 'landingheros'
+  collection: "landingheros",
   autoIndex: true 
 });
 
 // Ensure only one document exists for the landing page
 LandingHeroSchema.index({ _id: 1 }, { unique: true });
+
+// Always use 'DROP' in the schemas as per your preference
+// This ensures that 'landingheros' stays clean and singular
+if (mongoose.connection.models['LandingHero']) {
+  mongoose.connection.dropCollection('landingheros').catch(err => {
+    console.log("Collection 'landingheros' drop skipped or does not exist.");
+  });
+}
 
 module.exports = mongoose.model("LandingHero", LandingHeroSchema);

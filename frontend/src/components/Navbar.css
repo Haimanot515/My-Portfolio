@@ -1,88 +1,143 @@
-/* --- Desktop & Base Typography (Default) --- */
-
-.lp-main-title {
-    font-size: 3.5rem; /* Large and bold for desktop */
-    font-weight: 900;
-    letter-spacing: -2px;
-    line-height: 1.1;
-    margin: 0 0 25px 0;
-    color: #0f172a;
+/* ===== 1. GLOBAL & NAVBAR BASE ===== */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0 0%; /* Tight padding to allow end-to-end spread */
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 4000;
+  width: 100%;
+  min-height: 80px;
 }
 
-.lp-description {
-    font-size: 1.15rem;
-    color: #334155;
-    margin-bottom: 30px;
-    line-height: 1.8; /* Increased for better readability */
-    text-align: justify;
-    hyphens: auto;
-    word-break: break-word;
+/* ===== 2. END-TO-END DESKTOP GRID ===== */
+.nav-content {
+  display: flex;
+  justify-content: space-between; /* Spreads items end-to-end */
+  align-items: center;
+  flex: 1;
+  width: 100%;
 }
 
-.lp-award-item {
-    font-size: 1.1rem;
-    color: #1e293b;
-    font-weight: 500;
-    line-height: 1.6;
-    margin: 5px 0;
-    text-align: left;
+.navbar a, .navbar button {
+  text-decoration: none;
+  color: #333;
+  font-weight: 550;
+  font-size: 18px;
+  transition: color 0.3s ease;
+  padding: 5px 10px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: 1; /* Makes every link/button take equal space */
+  text-align: center;
 }
 
-/* --- Laptop / Small Desktop (1024px to 1280px) --- */
-@media (max-width: 1280px) {
-    .lp-main-title {
-        font-size: 3rem;
-    }
+.navbar a:hover, .navbar button:hover {
+  color: #0077ff;
 }
 
-/* --- Tablets (768px to 1024px) --- */
-@media (max-width: 1024px) {
-    .lp-main-title {
-        font-size: 2.5rem;
-        letter-spacing: -1.5px;
-    }
-    
-    .lp-description {
-        font-size: 1.1rem;
-        line-height: 1.7;
-    }
+/* ===== 3. CENTERED TOGGLE & RESPONSIVENESS ===== */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 4100;
+  color: #333;
 }
 
-/* --- Large Mobile (480px to 768px) --- */
-@media (max-width: 768px) {
-    .lp-main-title {
-        font-size: 2.2rem;
-        letter-spacing: -1px;
-        text-align: center; /* Center titles on mobile */
-    }
+@media (max-width: 1100px) {
+  .navbar {
+    justify-content: center; /* Centers the toggle on mobile */
+    min-height: 60px;
+  }
 
-    .lp-description {
-        font-size: 1.05rem;
-        text-align: center; /* Better flow for mobile reading */
-        line-height: 1.6;
-        padding: 0 10px;
-    }
+  .menu-toggle {
+    display: block;
+    margin: 0 auto; /* Perfectly centered X/Bars */
+  }
 
-    .lp-award-item {
-        font-size: 1rem;
-        text-align: center;
-    }
+  .nav-content {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    gap: 12px;
+  }
+
+  .nav-content.active {
+    display: flex;
+  }
+
+  .navbar a, .navbar button {
+    width: 100%;
+    flex: none;
+    text-align: center;
+  }
 }
 
-/* --- Small Mobile (Up to 480px) --- */
-@media (max-width: 480px) {
-    .lp-main-title {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
+/* ===== 4. MODAL OVERLAY & CENTERED X ===== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
 
-    .lp-description {
-        font-size: 1rem;
-        line-height: 1.5;
-        margin-bottom: 20px;
-    }
+.auth-card {
+  background: white;
+  padding: 60px 30px 30px; /* Space for the top X */
+  border-radius: 12px;
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+}
 
-    .lp-award-item {
-        font-size: 0.95rem;
-    }
+.close-btn-style {
+  position: absolute;
+  top: 15px;
+  left: 50%; /* Center the X */
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ===== 5. TESTIMONIALS (From your reference) ===== */
+.testimonials-main {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.testimonial-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  border-bottom: 1px solid #f8f8f8;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .testimonial-card { flex-direction: column; gap: 10px; }
 }

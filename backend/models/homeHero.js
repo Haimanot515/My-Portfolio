@@ -6,19 +6,24 @@ const heroSchema = new mongoose.Schema({
   description: String,
   name: String,
   role: String,
-  image: String, // Main Hero Profile Image
+  image: String,      // Main Hero Profile Image
   quote: String,
-  // New Fields Added Below
+  // New Fields
   story: String,       // The detailed "My Story" text
   storyImage: String   // The image specifically for the About/Story section
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  // FIXED: Explicitly forcing the plural collection name 'homeheros'
+  collection: 'homeheros' 
+});
 
 // Always use 'DROP' in the schemas as per your preference
-// This ensures the 'heros' collection is cleared if the model is re-compiled
-if (mongoose.connection.models['Hero']) {
-  mongoose.connection.dropCollection('heros').catch(err => {
-    console.log("Collection drop skipped or collection does not exist.");
+// Specifically dropping the 'homeheros' collection to keep the portfolio clean
+if (mongoose.connection.models['HomeHero']) {
+  mongoose.connection.dropCollection('homeheros').catch(err => {
+    console.log("Collection 'homeheros' drop skipped or collection does not exist.");
   });
 }
 
+// Ensure the model name matches the logic above
 module.exports = mongoose.model("HomeHero", heroSchema);
