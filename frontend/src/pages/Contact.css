@@ -61,7 +61,7 @@
   line-height: 1;
 }
 
-.logo-year-first { color: #bbb; } /* Improved visibility from #eee */
+.logo-year-first { color: #bbb; } /* Darkened from #eee for visibility */
 .logo-year-last { color: #0070f3; }
 
 .logo-label {
@@ -123,7 +123,7 @@
   text-align: justify;
 }
 
-/* FORM STYLES */
+/* FORM STYLES - UPDATED FOR VISIBILITY */
 .contact-form-wrapper {
   padding: 20px;
 }
@@ -132,9 +132,9 @@
   width: 100%;
   padding: 50px;
   border-radius: 30px;
-  background: #fff; /* White background as requested */
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+  background: #ffffff; /* Explicit pure white */
+  border: 1px solid #e0e0e0; /* Defined border */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); /* Increased shadow depth */
   margin-top: 10px;
 }
 
@@ -150,7 +150,7 @@
   width: 100%;
   padding: 15px;
   border-radius: 12px;
-  border: 1px solid #eee;
+  border: 1px solid #dcdcdc; /* Darker border for input visibility */
   font-size: 1rem;
   outline: none;
   font-family: inherit;
@@ -159,7 +159,7 @@
 }
 
 .contact-input:focus, .contact-textarea:focus {
-  border-color: #0070f3;
+  border-color: #0070f3; /* Brand blue focus */
 }
 
 .contact-textarea {
@@ -171,18 +171,19 @@
   width: 100%;
   cursor: pointer;
   padding: 18px;
-  background: #0070f3; /* Changed from black to brand blue for consistency */
+  background: #0070f3; /* Changed from black to brand blue for visibility */
   color: #fff;
   border: none;
   border-radius: 12px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: background 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .contact-btn:hover {
   background: #0056b3;
+  transform: translateY(-2px);
 }
 
 /* IMPACT STATS */
