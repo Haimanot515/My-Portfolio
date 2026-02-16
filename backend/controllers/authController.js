@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const VerificationCode = require("../models/VerificationCode");
+const HomeHero = require("../models/HomeHero");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -28,13 +29,17 @@ exports.register = async (req, res) => {
       return res.status(409).json({ msg: "User already exists." });
     }
 
-    // 3. Clear any previous unused codes for this email
+    // 3. Dynamic Title & Image from your Hero model
+    const heroData = await HomeHero.findOne().sort({ createdAt: -1 });
+    const displayLogo = heroData && heroData.image ? heroData.image : "https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg";
+
+    // 4. DROP Logic: Clear any previous unused codes for this email
     await VerificationCode.deleteMany({ email, used: false });
 
-    // 4. Generate 6-digit code
+    // 5. Generate 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 5. Store code in DB with 10-minute expiry
+    // 6. Store code in DB with 10-minute expiry
     await VerificationCode.create({
       email,
       DBcode: code,
@@ -42,51 +47,7 @@ exports.register = async (req, res) => {
       expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 min
     });
 
-    // 6. Prepare Professional HTML Email
-    const htmlContent = I understand. You want the code clean, the "Building Digital Excellence" branding front and center, and you want to remove the blue gradient line from the background to keep the design sleek and professional.
-
-I have also ensured that process.env.JWT_SECRET is used correctly without hardcoding any secrets.
-
-JavaScript
-const User = require("../models/User");
-const VerificationCode = require("../models/VerificationCode");
-const HomeHero = require("../models/HomeHero");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { sendEmail } = require("../config/nodemailer");
-
-/* ===========================
-    REGISTER (SEND CODE)
-=========================== */
-exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    if (!name || !email || !password) {
-      return res.status(400).json({ msg: "All fields are required." });
-    }
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ msg: "User already exists." });
-    }
-
-    // Dynamic Title & Image from your Hero model
-    const heroData = await HomeHero.findOne().sort({ createdAt: -1 });
-    const displayLogo = heroData && heroData.image ? heroData.image : "https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg";
-
-    // DROP Logic: Clear previous codes for this email
-    await VerificationCode.deleteMany({ email, used: false });
-
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await VerificationCode.create({
-      email,
-      DBcode: code,
-      used: false,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000), 
-    });
-
+    // 7. Prepare Professional HTML Email (Corrected Syntax)
     const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -131,10 +92,10 @@ exports.register = async (req, res) => {
     </html>
     `;
 
-    // 7. Send via Brevo API
+    // 8. Send via Brevo API
     await sendEmail(
         email, 
-        "Welcome to my Portfolio - Your Verification Code", 
+        "Verification Code - Building Digital Excellence", 
         htmlContent
     );
 
@@ -142,7 +103,7 @@ exports.register = async (req, res) => {
 
   } catch (err) {
     console.error("❌ Registration/Brevo Error:", err);
-    res.status(500).json({ msg: "Server error during registration. Check Brevo API Key." });
+    res.status(500).json({ msg: "Server error during registration." });
   }
 };
 
@@ -157,7 +118,6 @@ exports.verify = async (req, res) => {
       return res.status(400).json({ msg: "All fields are required." });
     }
 
-    // 1. Find the matching code record
     const record = await VerificationCode.findOne({
       email,
       DBcode: code,
@@ -168,22 +128,18 @@ exports.verify = async (req, res) => {
       return res.status(400).json({ msg: "Invalid or already used code." });
     }
 
-    // 2. Check for expiry
     if (record.expiresAt < new Date()) {
       return res.status(400).json({ msg: "Verification code expired." });
     }
 
-    // 3. Prevent duplicate creation if they refreshed the page
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ msg: "User already registered." });
     }
 
-    // 4. Mark code as used
     record.used = true;
     await record.save();
 
-    // 5. Hash password and Create User
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -193,7 +149,6 @@ exports.verify = async (req, res) => {
       isVerified: true,
     });
 
-    // 6. Generate JWT for instant login after verification
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
@@ -227,24 +182,20 @@ exports.login = async (req, res) => {
       return res.status(400).json({ msg: "Email and password required." });
     }
 
-    // 1. Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ msg: "User not found." });
     }
 
-    // 2. Check verification status
     if (!user.isVerified) {
       return res.status(403).json({ msg: "Please verify your email first." });
     }
 
-    // 3. Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid password." });
     }
 
-    // 4. Generate Token
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
