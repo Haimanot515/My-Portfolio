@@ -68,7 +68,8 @@ const Home = () => {
         display: 'flex', 
         flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between', 
-        alignItems: 'center', 
+        alignItems: 'center',
+      position: -webkit-sticky; 
         position: 'sticky', 
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
