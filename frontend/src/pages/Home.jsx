@@ -59,22 +59,30 @@ const Home = () => {
   };
 
   return (
-    /* Changed overflowX to 'clip' to fix the sticky navbar issue */
-    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'clip' }}>
+    <div style={{ 
+      backgroundColor: '#fff', 
+      color: '#111', 
+      fontFamily: 'Inter, system-ui, sans-serif', 
+      scrollBehavior: 'smooth',
+      overflowX: 'clip', // Use clip to allow sticky behavior
+      display: 'block',
+      position: 'relative'
+    }}>
       
       {/* 1. NAVIGATION BAR */}
       <nav style={{ 
         height: isMobile ? "auto" : "80px", 
-        padding: isMobile ? '15px 20px' : '20px 50px', 
+        padding: isMobile ? '15px 20px' : '0 50px', 
         display: 'flex', 
         flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between', 
         alignItems: 'center', 
         position: 'sticky', 
-        top: 0, 
+        top: '0px', // Explicit string for top
+        alignSelf: 'start',
         background: 'rgba(255,255,255,0.95)', 
         backdropFilter: 'blur(10px)', 
-        zIndex: 1000, // Increased zIndex for better stickiness
+        zIndex: 9999, // Maximize z-index to stay on top
         borderBottom: '1px solid #eee',
         gap: isMobile ? '15px' : '0'
       }}>
@@ -161,12 +169,8 @@ const Home = () => {
                     style={{ width: '100%', borderRadius: '24px', boxShadow: isMobile ? '10px 10px 0px #f8f8f8' : '20px 20px 0px #f8f8f8', objectFit: 'cover' }} 
                   />
                   <div style={{ marginTop: '20px', fontFamily: 'sans-serif' }}>
-                    <h3 style={{ margin: '0', fontSize: '1.5rem', fontWeight: '800' }}>
-                      Haimanot Beka Mekonnen
-                    </h3>
-                    <p style={{ margin: '5px 0 0', color: '#0070f3', fontSize: '18px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                      Full Stack Developer
-                    </p>
+                    <h3 style={{ margin: '0', fontSize: '1.5rem', fontWeight: '800' }}>Haimanot Beka Mekonnen</h3>
+                    <p style={{ margin: '5px 0 0', color: '#0070f3', fontSize: '18px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Full Stack Developer</p>
                   </div>
                </>
              )}
