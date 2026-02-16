@@ -59,9 +59,9 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'visible' }}>
+    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'hidden' }}>
       
-      {/* 1. NAVIGATION BAR */}
+      {/* 1. NAVIGATION BAR *
       <nav className="navbar" >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {hero?.image && (
