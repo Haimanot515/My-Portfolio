@@ -62,7 +62,7 @@ const Home = () => {
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'hidden' }}>
       
       {/* 1. NAVIGATION BAR */}
-      <nav style={{ 
+      <nav className="navbar" style={{ 
         height: isMobile ? "auto" : "80px", 
         padding: isMobile ? '15px 20px' : '20px 50px', 
         display: 'flex', 
@@ -70,7 +70,7 @@ const Home = () => {
         justifyContent: 'space-between', 
         alignItems: 'center',
       WebkitSticky: 'sticky',
-      position: -webkit-sticky,
+      
         position: 'sticky', 
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
