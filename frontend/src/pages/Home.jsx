@@ -69,13 +69,12 @@ const Home = () => {
         flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between', 
         alignItems: 'center',
-      WebkitSticky: 'sticky',
-      
+        WebkitSticky: 'sticky',
         position: 'sticky', 
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
         backdropFilter: 'blur(10px)', 
-        zIndex: 100, 
+        zIndex: 5000, 
         borderBottom: '1px solid #eee',
         gap: isMobile ? '15px' : '0'
       }}>
