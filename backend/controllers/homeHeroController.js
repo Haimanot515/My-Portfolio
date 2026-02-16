@@ -5,18 +5,19 @@ const cloudinary = require("../config/cloudinary");
 // @route   GET /api/home-hero
 exports.getHero = async (req, res) => {
   try {
+    // Finds the latest entry
     const hero = await HomeHero.findOne().sort({ createdAt: -1 });
 
     if (!hero) {
-      return res.status(404).json({ msg: "Hero section not found" });
+      // Return 200 with an empty object so the portfolio doesn't crash
+      return res.status(200).json({}); 
     }
     res.json(hero);
   } catch (err) {
-    console.error(err);
+    console.error("Fetch Error:", err);
     res.status(500).json({ msg: "Server error" });
   }
 };
-
 // @desc    Create or Replace Home Hero (Admin only)
 // @route   POST /api/home-hero
 exports.createHero = async (req, res) => {
