@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const VerificationCode = require("../models/VerificationCode");
-const HomeHero = require("../models/HomeHero");
+const HomeHero = require("../models/homeHero");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
