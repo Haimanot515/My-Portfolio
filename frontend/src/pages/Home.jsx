@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import API from "../api/api.jsx"; 
 import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin, FaEnvelope, FaTelegram } from "react-icons/fa";
-
+import "./Home.css";
 const Home = () => {
   const [hero, setHero] = useState(null); 
   const [skills, setSkills] = useState([]);
