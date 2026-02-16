@@ -69,7 +69,7 @@ const Home = () => {
         flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between', 
         alignItems: 'center',
-      position: -webkit-sticky; 
+      WebkitSticky: 'sticky',
         position: 'sticky', 
         top: 0, 
         background: 'rgba(255,255,255,0.95)', 
