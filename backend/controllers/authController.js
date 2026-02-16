@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
     });
 
     // 7. Prepare Professional HTML Email (Corrected Syntax)
-    const htmlContent = `
+    const htmlContent =`
     <!DOCTYPE html>
     <html>
     <head>
@@ -57,6 +57,7 @@ exports.register = async (req, res) => {
       <style>
         @media screen and (max-width: 480px) {
           .card { width: 100% !important; border-radius: 0 !important; }
+          .main-h1 { font-size: 38px !important; letter-spacing: -1.5px !important; }
           .otp { font-size: 28px !important; letter-spacing: 4px !important; }
         }
       </style>
@@ -66,8 +67,21 @@ exports.register = async (req, res) => {
         <div class="card" style="max-width: 600px; border: 1px solid #eeeeee; border-radius: 12px; overflow: hidden;">
           
           <div style="padding: 40px 20px; text-align: center;">
-            <img src="${displayLogo}" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover;" />
-            <h1 style="color: #111111; font-size: 24px; font-weight: 800; margin-top: 20px;">Building Digital Excellence</h1>
+            <img src="${displayLogo}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover; margin-bottom: 20px;" />
+            
+            <h1 class="main-h1" style="
+              font-size: 55px; 
+              line-height: 1; 
+              margin-bottom: 25px; 
+              letter-spacing: -3px; 
+              margin-top: 0; 
+              color: #111111;
+              font-weight: 800;
+            ">
+              Building <br/>
+              <span style="color: #0070f3;">Digital</span> <br/>
+              Excellence.
+            </h1>
           </div>
 
           <div style="padding: 0 40px 40px 40px; text-align: center;">
@@ -75,7 +89,7 @@ exports.register = async (req, res) => {
             <p style="font-size: 15px; color: #666666; line-height: 1.6;">Use the verification code below to secure your account:</p>
             
             <div style="margin: 30px 0; padding: 20px; background-color: #fcfcfc; border: 1px solid #f0f0f0; border-radius: 8px; display: inline-block;">
-              <span class="otp" style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #000000;">${code}</span>
+              <span class="otp" style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #000000; font-family: monospace;">${code}</span>
             </div>
             
             <p style="font-size: 13px; color: #aaaaaa; margin-top: 20px;">
@@ -83,8 +97,9 @@ exports.register = async (req, res) => {
             </p>
           </div>
 
-          <div style="background-color: #fafafa; padding: 20px; border-top: 1px solid #eeeeee; text-align: center;">
+          <div style="background-color: #fafafa; padding: 25px; border-top: 1px solid #eeeeee; text-align: center;">
             <p style="font-size: 12px; color: #999999; margin: 0;">&copy; ${new Date().getFullYear()} Building Digital Excellence</p>
+            <p style="font-size: 11px; color: #bbbbbb; margin: 5px 0 0 0; font-weight: 600;">⚠️ Automated message - Please do not reply to this email.</p>
           </div>
         </div>
       </center>
