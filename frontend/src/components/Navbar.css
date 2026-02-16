@@ -2,10 +2,9 @@
 .navbar {
   display: flex;
   align-items: center;
-  padding: 0; /* Tight padding to allow end-to-end spread */
+  padding: 0 0%; /* Tight padding to allow end-to-end spread */
   background: #fff;
   border-bottom: 1px solid #eee;
-  position: -webkit-sticky; /* For Safari support */
   position: sticky;
   top: 0;
   z-index: 4000;
@@ -123,7 +122,7 @@
   color: #333;
 }
 
-/* ===== 5. TESTIMONIALS ===== */
+/* ===== 5. TESTIMONIALS (From your reference) ===== */
 .testimonials-main {
   max-width: 850px;
   margin: 0 auto;
@@ -140,8 +139,5 @@
 }
 
 @media (max-width: 600px) {
-  .testimonial-card { 
-    flex-direction: column; 
-    gap: 10px; 
-  }
+  .testimonial-card { flex-direction: column; gap: 10px; }
 }
