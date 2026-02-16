@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import API from "../api/api.jsx"; 
 import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin, FaEnvelope, FaTelegram } from "react-icons/fa";
-import "./Home.css";
+
 const Home = () => {
   const [hero, setHero] = useState(null); 
   const [skills, setSkills] = useState([]);
@@ -61,8 +61,22 @@ const Home = () => {
   return (
     <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'hidden' }}>
       
-      {/* 1. NAVIGATION BAR *
-      <nav className="navbar" >
+      {/* 1. NAVIGATION BAR */}
+      <nav style={{ 
+        height: isMobile ? "auto" : "80px", 
+        padding: isMobile ? '15px 20px' : '20px 50px', 
+        display: 'flex', 
+        flexDirection: isMobile ? 'column' : 'row',
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        position: 'sticky', 
+        top: 0, 
+        background: 'rgba(255,255,255,0.95)', 
+        backdropFilter: 'blur(10px)', 
+        zIndex: 100, 
+        borderBottom: '1px solid #eee',
+        gap: isMobile ? '15px' : '0'
+      }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {hero?.image && (
             <img 
