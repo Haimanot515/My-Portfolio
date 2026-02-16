@@ -51,7 +51,7 @@ const Contact = () => {
           {mainHero?.image && (
             <img src={mainHero.image} alt="Profile" className="nav-profile-img" />
           )}
-          <div className="nav-profile-name">H.Mekonnen</div>
+          <div className="nav-profile-name">Haimanot Beka</div>
         </div>
 
         <div className="contact-nav-logo">
@@ -87,7 +87,7 @@ const Contact = () => {
 
           <div className="contact-form-wrapper">
             <form onSubmit={handleSubmit} className="contact-form">
-              <h2>Project Brief</h2>
+              <h2>Contact me</h2>
               <input name="name" value={form.name} onChange={handleChange} placeholder="Your Name" required className="contact-input" />
               <input name="email" value={form.email} onChange={handleChange} placeholder="Email" required className="contact-input" />
               <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell me about your vision..." required className="contact-textarea" />
