@@ -43,6 +43,50 @@ exports.register = async (req, res) => {
     });
 
     // 6. Prepare Professional HTML Email
+    const htmlContent = I understand. You want the code clean, the "Building Digital Excellence" branding front and center, and you want to remove the blue gradient line from the background to keep the design sleek and professional.
+
+I have also ensured that process.env.JWT_SECRET is used correctly without hardcoding any secrets.
+
+JavaScript
+const User = require("../models/User");
+const VerificationCode = require("../models/VerificationCode");
+const HomeHero = require("../models/HomeHero");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { sendEmail } = require("../config/nodemailer");
+
+/* ===========================
+    REGISTER (SEND CODE)
+=========================== */
+exports.register = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "All fields are required." });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ msg: "User already exists." });
+    }
+
+    // Dynamic Title & Image from your Hero model
+    const heroData = await HomeHero.findOne().sort({ createdAt: -1 });
+    const displayLogo = heroData && heroData.image ? heroData.image : "https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg";
+
+    // DROP Logic: Clear previous codes for this email
+    await VerificationCode.deleteMany({ email, used: false });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await VerificationCode.create({
+      email,
+      DBcode: code,
+      used: false,
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000), 
+    });
+
     const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -51,44 +95,35 @@ exports.register = async (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
         @media screen and (max-width: 480px) {
-          .container { width: 100% !important; border: none !important; border-radius: 0 !important; }
-          .code-text { font-size: 26px !important; letter-spacing: 3px !important; }
-          .logo { width: 80px !important; height: 80px !important; }
+          .card { width: 100% !important; border-radius: 0 !important; }
+          .otp { font-size: 28px !important; letter-spacing: 4px !important; }
         }
       </style>
     </head>
-    <body style="margin: 0; padding: 0; background-color: #f4f7f9; font-family: 'Segoe UI', Tahoma, sans-serif;">
-      <center style="width: 100%; background-color: #f4f7f9; padding: 30px 0;">
-        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e1e8ed; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <body style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Segoe UI', Arial, sans-serif;">
+      <center style="width: 100%; background-color: #ffffff; padding: 40px 0;">
+        <div class="card" style="max-width: 600px; border: 1px solid #eeeeee; border-radius: 12px; overflow: hidden;">
           
-          <div style="height: 6px; background: linear-gradient(90deg, #0070f3, #00c6ff);"></div>
-
-          <div style="text-align: center; padding: 35px 20px 10px 20px;">
-            <img class="logo" src="https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg" 
-                 alt="Logo" style="width: 90px; height: 90px; border-radius: 8px; object-fit: cover; border: 1px solid #eeeeee;" />
+          <div style="padding: 40px 20px; text-align: center;">
+            <img src="${displayLogo}" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover;" />
+            <h1 style="color: #111111; font-size: 24px; font-weight: 800; margin-top: 20px;">Building Digital Excellence</h1>
           </div>
 
-          <div style="text-align: center; padding: 0 20px 20px 20px;">
-            <h1 style="color: #111111; margin: 0; font-size: 26px; font-weight: 800;">Verify Your Identity</h1>
-          </div>
-
-          <div style="padding: 30px; background-color: #f9f9f9; border-radius: 8px; margin: 0 25px; text-align: center;">
-            <p style="font-size: 18px; color: #333; font-weight: bold; margin-top: 0;">Hello ${name},</p>
-            <p style="font-size: 16px; color: #555; line-height: 1.6;">Welcome to our community! Please use the verification code below to complete your registration:</p>
+          <div style="padding: 0 40px 40px 40px; text-align: center;">
+            <p style="font-size: 16px; color: #444444;">Hello <strong>${name}</strong>,</p>
+            <p style="font-size: 15px; color: #666666; line-height: 1.6;">Use the verification code below to secure your account:</p>
             
-            <div style="margin: 25px 0; padding: 20px; background: #ffffff; border: 1px dashed #0070f3; display: inline-block; border-radius: 8px;">
-              <span class="code-text" style="font-size: 34px; font-weight: 800; letter-spacing: 6px; color: #0070f3;">${code}</span>
+            <div style="margin: 30px 0; padding: 20px; background-color: #fcfcfc; border: 1px solid #f0f0f0; border-radius: 8px; display: inline-block;">
+              <span class="otp" style="font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #000000;">${code}</span>
             </div>
             
-            <p style="font-size: 13px; color: #999; margin-bottom: 0;">
-              This code will expire in <strong>10 minutes</strong>.<br>
-              If you did not request this, please ignore this email.
+            <p style="font-size: 13px; color: #aaaaaa; margin-top: 20px;">
+              This code expires in 10 minutes.
             </p>
           </div>
 
-          <div style="text-align: center; padding: 30px 20px; font-size: 12px; color: #aaaaaa;">
-            <p style="margin: 0;">&copy; ${new Date().getFullYear()} Build Digital Excellence. All rights reserved.</p>
-            <p style="margin: 5px 0;">⚠️ Automated message - Please do not reply.</p>
+          <div style="background-color: #fafafa; padding: 20px; border-top: 1px solid #eeeeee; text-align: center;">
+            <p style="font-size: 12px; color: #999999; margin: 0;">&copy; ${new Date().getFullYear()} Building Digital Excellence</p>
           </div>
         </div>
       </center>
