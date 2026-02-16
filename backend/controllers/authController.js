@@ -44,35 +44,52 @@ exports.register = async (req, res) => {
 
     // 6. Prepare Professional HTML Email
     const htmlContent = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        @media screen and (max-width: 480px) {
+          .container { width: 100% !important; border: none !important; border-radius: 0 !important; }
+          .code { font-size: 24px !important; letter-spacing: 2px !important; }
+          .logo { width: 80px !important; height: 80px !important; }
+        }
+      </style>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Segoe UI', Tahoma, sans-serif;">
+      <center style="width: 100%; table-layout: fixed; background-color: #ffffff; padding: 20px 0;">
+        <div class="container" style="max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
           
-          <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg" 
-                 alt="Build Digital Excellence Logo" 
-                 style="width: 100px; height: 100px; border-radius: 4px; object-fit: cover; border: 1px solid #eeeeee;" />
+          <div style="text-align: center; padding: 30px 20px 10px 20px;">
+            <img class="logo" src="https://res.cloudinary.com/dq3jkpys8/image/upload/v1770377714/home_hero/i6vhbionblsgudwkywqb.jpg" 
+                 alt="Logo" style="width: 100px; height: 100px; border-radius: 4px; object-fit: cover; border: 1px solid #eeeeee;" />
           </div>
 
-          <div style="text-align: center; padding-bottom: 20px;">
-            <h1 style="color: #007bff; margin: 0; font-size: 24px;">Verify Your Account</h1>
+          <div style="text-align: center; padding: 0 20px 20px 20px;">
+            <h1 style="color: #0070f3; margin: 0; font-size: 24px; font-weight: 800;">Verify Your Account</h1>
           </div>
 
-          <div style="padding: 20px; background-color: #f9f9f9; border-radius: 8px; text-align: center;">
-            <p style="font-size: 18px; color: #333; font-weight: bold;">Hello ${name},</p>
-            <p style="font-size: 16px; color: #555;">Thank you for joining us! Please use the verification code below to complete your registration:</p>
+          <div style="padding: 30px; background-color: #f9f9f9; border-radius: 8px; margin: 0 20px; text-align: center;">
+            <p style="font-size: 18px; color: #111; font-weight: bold; margin-top: 0;">Hello ${name},</p>
+            <p style="font-size: 16px; color: #555; line-height: 1.5;">Thank you for joining us! Use the code below to complete your registration:</p>
             
-            <div style="margin: 30px 0; padding: 15px; background: #ffffff; border: 2px dashed #007bff; display: inline-block;">
-              <span style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #333;">${code}</span>
+            <div class="code" style="margin: 25px 0; padding: 15px; background: #ffffff; border: 2px dashed #0070f3; display: inline-block; border-radius: 4px;">
+              <span style="font-size: 32px; font-weight: 800; letter-spacing: 5px; color: #111;">${code}</span>
             </div>
             
-            <p style="font-size: 14px; color: #777;">This code will expire in 10 minutes. If you did not request this, please ignore this email.</p>
+            <p style="font-size: 13px; color: #888; margin-bottom: 0;">
+              This code will expire in 10 minutes. If you did not request this, please ignore this email.
+            </p>
           </div>
 
-          <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #aaa;">
-            <p>&copy; ${new Date().getFullYear()} Build Digital Excellence. All rights reserved.</p>
-            <p>⚠️ This is an automated message, please do not reply to this email address.</p>
+          <div style="text-align: center; padding: 30px 20px; font-size: 12px; color: #aaa;">
+            <p style="margin: 0;">&copy; ${new Date().getFullYear()} Build Digital Excellence. All rights reserved.</p>
+            <p style="margin: 5px 0;">⚠️ Automated message - Please do not reply.</p>
           </div>
         </div>
-      `;
+      </center>
+    </body>
+    </html>
+    `;
 
     // 7. Send via Brevo API
     await sendEmail(
