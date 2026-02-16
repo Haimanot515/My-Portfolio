@@ -59,7 +59,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'hidden' }}>
+    <div style={{ backgroundColor: '#fff', color: '#111', fontFamily: 'Inter, system-ui, sans-serif', scrollBehavior: 'smooth', overflowX: 'visible' }}>
       
       {/* 1. NAVIGATION BAR */}
       <nav className="navbar" >
