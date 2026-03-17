@@ -32,7 +32,7 @@ const Footer = () => {
               <span className="logoText">Haimanot <span className="blueAccent">Beka</span></span>
             </div>
             <p className="brandDesc">
-              Software Engineering Scholar at Addis Ababa University (AAiT). 
+              Software Engineering Student at Addis Ababa University (AAiT). 
               Crafting high-performance digital ecosystems with the MERN stack 
               and a commitment to technical excellence.
             </p>
