@@ -11,10 +11,10 @@
 <br>
 <p align="center">
   <a href="https://my-portfolio-l9o0.onrender.com" target="_blank">
-    <img src="https://img.shields.io/badge/🌐_Live_Demo-View_Portfolio-2ea44f?style=for-the-badge" alt="Live Demo" />
+    <img src="https://img.shields.io/badge/_Live_Demo-View_Portfolio-2ea44f?style=for-the-badge" alt="Live Demo" />
   </a>
   <a href="https://github.com/Haimanot515/My-Portfolio-website" target="_blank">
-    <img src="https://img.shields.io/badge/📂_GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo" />
+    <img src="https://img.shields.io/badge/_GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo" />
   </a>
 </p>
 
@@ -65,7 +65,7 @@ This platform serves as my digital portfolio for potential employers, recruiters
 
 > Based on your package update, your project appears to use **Brevo** for email/contact functionality.
 
-### 🚀 Tools & Deployment
+###  Tools & Deployment
 <p>
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
   <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
