@@ -1,12 +1,14 @@
 <h1 align="center">💼 Haimanot Beka Portfolio</h1>
-<img src="https://res.cloudinary.com/dq3jkpys8/image/upload/v1773813385/por_nhrq6a.png" width="100%" style="border-radius:10px;" />
+
 
 <br>
 
 <h3 align="center">
   A modern full-stack personal portfolio website showcasing my skills, projects, and professional web development journey.
 </h3>
+<img src="https://res.cloudinary.com/dq3jkpys8/image/upload/v1773813385/por_nhrq6a.png" width="100%" style="border-radius:10px;" />
 
+<br>
 <p align="center">
   <a href="https://my-portfolio-l9o0.onrender.com" target="_blank">
     <img src="https://img.shields.io/badge/🌐_Live_Demo-View_Portfolio-2ea44f?style=for-the-badge" alt="Live Demo" />
