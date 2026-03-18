@@ -1,4 +1,4 @@
-<h1 align="center">💼 Haimanot Beka Portfolio</h1>
+<h1 align="center"> Haimanot Beka Portfolio</h1>
 
 
 <br>
@@ -20,7 +20,7 @@
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 **Haimanot Beka Portfolio** is a full-stack personal portfolio website built to present my professional profile, technical skills, featured projects, and contact information in a modern and visually engaging way.
 
@@ -28,23 +28,23 @@ This platform serves as my digital portfolio for potential employers, recruiters
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🏠 **Modern homepage with personal introduction**
-- 👩‍💻 **About me section**
-- 🛠️ **Skills and technologies showcase**
-- 📂 **Projects / portfolio showcase**
-- 📬 **Contact form for direct inquiries**
-- 📱 **Responsive design for desktop, tablet, and mobile**
-- ⚡ **Smooth and interactive user experience**
-- 🎨 **Clean and professional UI design**
-- 🔗 **Backend integration for contact or dynamic features**
+-  **Modern homepage with personal introduction**
+- **About me section**
+-  **Skills and technologies showcase**
+-  **Projects / portfolio showcase**
+-  **Contact form for direct inquiries**
+-  **Responsive design for desktop, tablet, and mobile**
+-  **Smooth and interactive user experience**
+-  **Clean and professional UI design**
+-  **Backend integration for contact or dynamic features**
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-### 💻 Frontend
+### Frontend
 <p>
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
@@ -52,7 +52,7 @@ This platform serves as my digital portfolio for potential employers, recruiters
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
 </p>
 
-### ⚙️ Backend
+###  Backend
 <p>
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
@@ -74,7 +74,7 @@ This platform serves as my digital portfolio for potential employers, recruiters
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```bash
 My-Portfolio-website/
