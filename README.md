@@ -1,4 +1,5 @@
 <h1 align="center">💼 Haimanot Beka Portfolio</h1>
+https://res.cloudinary.com/dq3jkpys8/image/upload/v1773813385/por_nhrq6a.png
 
 <h3 align="center">
   A modern full-stack personal portfolio website showcasing my skills, projects, and professional web development journey.
